@@ -1,0 +1,13 @@
+server:
+  port: 11805
+spring:
+  application:
+    name: medical-fileUpload
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.200.130:8848
+      config:
+        server-addr: 192.168.200.130:8848
+        file-extension: yml
+

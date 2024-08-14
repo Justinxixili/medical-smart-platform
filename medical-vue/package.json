@@ -1,0 +1,29 @@
+{
+  "name": "medical-vue",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.6.0",
+    "axios": "^1.7.2",
+    "chart.js": "^2.9.4",
+    "echarts": "^5.5.1",
+    "element-plus": "^2.7.6",
+    "pinia": "^2.1.7",
+    "pinia-persistedstate-plugin": "^0.1.0",
+    "vue": "^3.4.29",
+    "vue-img-verify": "^1.0.0",
+    "vue-router": "^4.4.0",
+    "vue3-captcha": "^0.3.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.5",
+    "sass": "^1.77.6",
+    "vite": "^5.3.1"
+  }
+}

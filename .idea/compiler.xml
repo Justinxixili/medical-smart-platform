@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <option name="BUILD_PROCESS_HEAP_SIZE" value="7000" />
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="medical-appointment" />
+        <module name="medical-utils" />
+        <module name="medical-user" />
+        <module name="medical-patient" />
+        <module name="medical-medicine" />
+        <module name="medical-uniapp-gateway" />
+        <module name="meidcal-model" />
+        <module name="medical-doctor" />
+        <module name="medical-FileUpload" />
+        <module name="medical-department" />
+        <module name="medical-web-gateway" />
+        <module name="medical-common" />
+        <module name="medical-feign-api" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="21" />
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="medical-FileUpload" options="-parameters" />
+      <module name="medical-appointment" options="-parameters" />
+      <module name="medical-common" options="-parameters" />
+      <module name="medical-department" options="-parameters" />
+      <module name="medical-doctor" options="-parameters" />
+      <module name="medical-feign-api" options="-parameters" />
+      <module name="medical-gateway" options="-parameters" />
+      <module name="medical-medicine" options="-parameters" />
+      <module name="medical-patient" options="-parameters" />
+      <module name="medical-service" options="-parameters" />
+      <module name="medical-uniapp-gateway" options="-parameters" />
+      <module name="medical-user" options="-parameters" />
+      <module name="medical-utils" options="-parameters" />
+      <module name="medical-web-gateway" options="-parameters" />
+      <module name="medical_cloud" options="-parameters" />
+      <module name="meidcal-model" options="-parameters" />
+    </option>
+  </component>
+</project>
