@@ -1,18 +1,13 @@
 server:
-  port: 11801
+  port: 51602
 spring:
   application:
     name: medical-user
-
   cloud:
     nacos:
+      discovery:
+        server-addr: 192.168.200.130:8848
       config:
         server-addr: 192.168.200.130:8848
-        group: DEFAULT_GROUP
-        #指定文件名，没有则默认${spring.application.name}
-        #指定读取配置中心文件后缀
         file-extension: yml
-  #读取配置中心文件配置
-  config:
-    import:
-      - optional:nacos:${spring.application.name}.${spring.cloud.nacos.config.file-extension}
+        group: DEFAULT_GROUP

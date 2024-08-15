@@ -2,8 +2,8 @@ package com.medical.gateway.web.util;
 
 import io.jsonwebtoken.*;
 
-import  jakarta.crypto.SecretKey;
-import  jakarta.crypto.spec.SecretKeySpec;
+import  javax.crypto.SecretKey;
+import  javax.crypto.spec.SecretKeySpec;
 import java.util.*;
 
 public class AppJwtUtil {

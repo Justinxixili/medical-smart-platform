@@ -1,5 +1,5 @@
 server:
-  port: 51601
+  port: 51600
 spring:
   application:
     name: medical-web-gateway

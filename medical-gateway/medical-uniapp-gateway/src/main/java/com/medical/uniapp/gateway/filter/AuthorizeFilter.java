@@ -2,7 +2,7 @@ package com.medical.uniapp.gateway.filter;
 import com.medical.utils.common.JwtUtil;
 import com.medical.utils.thread.ThreadLocalUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
+import com.alibaba.cloud.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
