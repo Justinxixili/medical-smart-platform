@@ -6,6 +6,7 @@ import com.medical.model.common.dtos.PageBean;
 import com.medical.model.common.dtos.Result;
 import com.medical.model.doctor.Doctor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
  * @version 1.0
  * @date 2024-07-08 13:08
  */
+@RefreshScope
 @RestController
 @RequestMapping("/doctor")
 public class DoctorController {

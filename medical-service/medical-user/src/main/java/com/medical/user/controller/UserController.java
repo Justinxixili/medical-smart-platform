@@ -10,6 +10,7 @@ import com.medical.user.service.UserService;
 import com.medical.utils.thread.ThreadLocalUtil;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
@@ -19,6 +20,7 @@ import java.util.Map;
  * @version 1.0
  * @date 2024-08-05 23:04
  */
+@RefreshScope
 @RestController
 @Validated
 @RequestMapping("/user")

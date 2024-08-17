@@ -19,6 +19,7 @@ public class Doctor {
     private Integer yearsOfPractice;
     private String hospital;
     private Integer departmentId;
+    private String departmentName;
     private String workingHours;
     private String roomNumber;
     private String certifications;

@@ -5,6 +5,7 @@ import com.medical.model.common.dtos.Result;
 import com.medical.model.patient.Patient;
 import com.medical.patient.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -12,8 +13,9 @@ import org.springframework.web.bind.annotation.*;
  * @version 1.0
  * @date 2024-07-08 14:36
  */
+@RefreshScope
 @RestController
-@RequestMapping("/patients")
+@RequestMapping("/patient")
 public class PatientController {
 
     @Autowired

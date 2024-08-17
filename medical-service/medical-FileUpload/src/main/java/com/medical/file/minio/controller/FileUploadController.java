@@ -4,6 +4,7 @@ package com.medical.file.minio.controller;
 import com.medical.file.minio.service.FileStorageService;
 import com.medical.model.common.dtos.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @version 1.0
  * @date 2024-07-08 17:45
  */
+@RefreshScope
 @RestController
 @RequestMapping("/files")
 public class FileUploadController {

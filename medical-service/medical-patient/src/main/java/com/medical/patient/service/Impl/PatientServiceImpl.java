@@ -49,9 +49,7 @@ public class PatientServiceImpl  implements PatientService {
     public Result findAll(Integer pageNum, Integer pageSize) {
         PageBean<Patient> us = new PageBean<>();
         PageHelper.startPage(pageNum, pageSize);
-
         List<Patient> patients = patientMapper.findAll();
-
         // 遍历所有的患者，利用 Feign Client 获取用户信息和药品信息
         for (Patient patient : patients) {
             // 通过 UserClient 获取用户信息
@@ -60,14 +58,12 @@ public class PatientServiceImpl  implements PatientService {
                 patient.setUsername(user.getUsername());
                 patient.setPhone(user.getPhone());
             }
-
             // 通过 MedicineClient 获取药品信息
             Medicine medicine = iMedicineClient.findMedicineById(patient.getCurrentMedications());
             if (medicine != null) {
                 patient.setCurrentMedicationName(medicine.getName());
             }
         }
-
         Page<Patient> p = (Page<Patient>) patients;
         us.setTotal(p.getTotal());
         us.setItems(p.getResult());

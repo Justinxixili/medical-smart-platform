@@ -13,6 +13,7 @@ import com.medical.model.appointment.Appointment;
 import com.medical.model.common.dtos.PageBean;
 import com.medical.model.common.dtos.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+@RefreshScope
 @RestController
 @RequestMapping("/appointments")
 public class AppointmentController {

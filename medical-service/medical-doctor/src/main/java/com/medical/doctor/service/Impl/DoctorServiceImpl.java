@@ -7,10 +7,12 @@ import com.github.pagehelper.PageHelper;
 
 import com.medical.doctor.mapper.DoctorMapper;
 import com.medical.doctor.service.DoctorService;
+import com.medical.feign.department.IDepartmentClient;
 import com.medical.feign.doctor.IDoctorClient;
 import com.medical.feign.user.IUserClient;
 import com.medical.model.common.dtos.PageBean;
 import com.medical.model.common.dtos.Result;
+import com.medical.model.department.Department;
 import com.medical.model.doctor.Doctor;
 import com.medical.model.user.pojos.User;
 import org.checkerframework.checker.units.qual.A;
@@ -31,12 +33,26 @@ public class DoctorServiceImpl implements DoctorService {
     @Autowired
     private IUserClient iUserClient;
 
+    @Autowired
+    private IDepartmentClient iDepartmentClient;
+
     @Override
     public PageBean<Doctor> findAll(Integer pageNum, Integer pageSize) {
 
         PageBean<Doctor> doctors=new PageBean<>();
         PageHelper.startPage(pageNum,pageSize);
         List<Doctor> ds=doctorMapper.findAll();
+        for(Doctor doctor:ds){
+            User user=iUserClient.findUserById(doctor.getUserId());
+            if(user!=null){
+                doctor.setUsername(user.getUsername());
+                doctor.setUserId(user.getId());
+            }
+            Department department=iDepartmentClient.findDepartmentById(doctor.getDepartmentId());
+            if(department!=null){
+                doctor.setDepartmentName(department.getName());
+            }
+        }
         Page<Doctor> p=(Page<Doctor>) ds;
         doctors.setTotal(p.getTotal());
         doctors.setItems(p.getResult());

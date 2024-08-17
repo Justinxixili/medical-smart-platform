@@ -5,6 +5,7 @@ import com.medical.department.service.DepartmentService;
 import com.medical.model.common.dtos.Result;
 import com.medical.model.department.Department;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  * @version 1.0
  * @date 2024-07-09 22:28
  */
-
+@RefreshScope
 @RestController
 @RequestMapping("/departments")
 public class DepartmentController {
