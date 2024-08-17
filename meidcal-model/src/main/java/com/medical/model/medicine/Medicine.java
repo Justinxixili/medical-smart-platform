@@ -11,10 +11,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.hibernate.validator.constraints.URL;
 
-import  jakarta.validation.constraints.DecimalMin;
-import  jakarta.validation.constraints.Min;
-import  jakarta.validation.constraints.NotEmpty;
-import  jakarta.validation.constraints.NotNull;
+import  javax.validation.constraints.DecimalMin;
+import  javax.validation.constraints.Min;
+import  javax.validation.constraints.NotEmpty;
+import  javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 

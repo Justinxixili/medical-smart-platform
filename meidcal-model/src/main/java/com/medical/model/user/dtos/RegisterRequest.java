@@ -3,7 +3,7 @@ package com.medical.model.user.dtos;
 
 import lombok.Data;
 
-import  jakarta.validation.constraints.Pattern;
+import  javax.validation.constraints.Pattern;
 
 /**
  * @author 王祥俊
