@@ -3,6 +3,7 @@ package com.medical.gateway.web.filter;
 
 import com.alibaba.cloud.commons.lang.StringUtils;
 import com.medical.utils.common.JwtUtil;
+import com.medical.utils.thread.ThreadLocalUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,13 @@ public class AuthorizeFilter implements Ordered, GlobalFilter {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
 
-        // 判断是否是登录请求
-        if (request.getURI().getPath().contains("/login")) {
+        // 跳过不需要验证的路径
+        String path = request.getURI().getPath();
+        if (path.contains("/login") ||
+                path.contains("/user/code") ||
+                path.contains("/user/register") ||
+                path.contains("/user/forgotPassword") ||
+                path.contains("/user/loginForPhone")) {
             return chain.filter(exchange);
         }
 
@@ -68,7 +74,8 @@ public class AuthorizeFilter implements Ordered, GlobalFilter {
             ServerHttpRequest modifiedRequest = request.mutate().headers(httpHeaders -> {
                 httpHeaders.add("userId", claims.get("id").toString());
             }).build();
-
+            // 将claims存入ThreadLocal
+            ThreadLocalUtil.set(claims);
             exchange = exchange.mutate().request(modifiedRequest).build();
         } catch (Exception e) {
             log.error("Token validation failed", e);
