@@ -269,7 +269,7 @@ setInterval(updateDateTime, 60000);
 // 卡片项数据
 const items = [
   { name: '妇产科' },
-  { name: '过敏及免疫学' },
+  { name: '过敏及免疫' },
   { name: '母乳喂养门诊' },
   { name: '分娩中心' },
   { name: '儿童健康中心' },
