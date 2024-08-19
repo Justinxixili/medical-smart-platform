@@ -17,11 +17,14 @@ import AppointmentDepartment from "@/views/appointment/AppointmentDepartment.vue
 import AppointmentManage from "@/views/appointment/AppointmentManage.vue";
 import Employment from "@/views/employment/Employment.vue";
 import Report from "@/views/report/Report.vue";
-import  myindex from "@/views/myindex.vue"
+import  myindex from "@/views/myindex.vue";
+import webindex from "@/views/webitem/webindex.vue"
+import doctorindex from '@/views/webitem/doctorindex.vue'
 const routes=[
     {path:'/myindex/web',component: myindex},
-    {path:'/adminLogin',component:LoginVue},
-    {path:'/',component:LayOut,redirect:'/myindex/web',meta:{title:"首页"},children:[
+
+    {path:'/',component:LayOut,redirect:'/webindex',meta:{title:"首页"},children:[
+
             {path:'article/category',component:ArticleCategory},
             {path:'article/manage',component:ArticleManage},
             {path:'user/info',component:UserInfo,meta:{title:"用户信息"}},
@@ -39,6 +42,11 @@ const routes=[
             {path: 'appointment/wwww',component: Report}
 
         ]},
+        {path: '/',component: myindex,redirect: '/webindex',children: [
+                {path: '/webindex',component: webindex},
+                {path: '/doctorindex',component: doctorindex},
+                {path:'/adminLogin',component:LoginVue},
+            ]},
 ]
 
 const router= createRouter({
