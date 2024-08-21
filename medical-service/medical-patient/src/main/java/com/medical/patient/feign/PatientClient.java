@@ -22,13 +22,13 @@ public class PatientClient implements IPatientClient {
     private PatientService patientService;
 
     @Override
-    @GetMapping("/patients/client/{patientId}")
+    @GetMapping("/patient/client/{patientId}")
     public Patient findPatientById(@PathVariable("patientId") Integer patientId) {
         return patientService.getById(patientId);
     }
 
     @Override
-    @GetMapping("/patients/client/userId/{userId}")
+    @GetMapping("/patient/client/userId/{userId}")
     public Patient findUserId(@PathVariable("userId") Integer userId){
         return patientService.findUserId(userId);
     }

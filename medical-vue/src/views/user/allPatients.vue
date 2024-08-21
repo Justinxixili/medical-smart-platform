@@ -7,20 +7,26 @@
     </template>
 
     <!-- Patient Table with Expandable Rows for Appointments -->
-    <el-table :data="allPatients" style="width: 100%">
+    <el-table :data="allPatients" style="width: 100%" @expand-change="onExpandChange">
       <el-table-column type="expand">
         <template #default="props">
           <div m="4">
-            <h3>预约详情</h3>
+            <h3 class="h3y">预约详情:</h3>
             <el-table :data="appointments[props.row.patientId] || []" style="width: 100%">
-              <el-table-column label="预约码" prop="code"></el-table-column>
-              <el-table-column label="就诊时间" prop="appointmentDate"></el-table-column>
-              <el-table-column label="就诊科室" prop="departmentName"></el-table-column>
-              <el-table-column label="医生姓名" prop="doctorName"></el-table-column>
-              <el-table-column label="就诊院区" prop="campus"></el-table-column>
-              <el-table-column label="就诊地址" prop="address"></el-table-column>
-              <el-table-column label="费用" prop="money"></el-table-column>
-              <el-table-column label="订单状态" prop="status"></el-table-column>
+              <el-table-column label="预约码" prop="code" width="200">
+                <template #default="{ row }">
+                  <span>{{ row.code }}</span>
+                  <el-tag :type="getRole(row.status)" style="margin-left: 20px;">
+                    {{ row.status }}
+                  </el-tag>
+                </template>
+              </el-table-column>
+              <el-table-column label="就诊时间" prop="appointmentDate" width="150"></el-table-column>
+              <el-table-column label="就诊科室" prop="departmentName" width="120"></el-table-column>
+              <el-table-column label="医生姓名" prop="doctorName" width="100"></el-table-column>
+              <el-table-column label="就诊院区" prop="campus" width="200"></el-table-column>
+              <el-table-column label="就诊地址" prop="address" width="150"></el-table-column>
+              <el-table-column label="费用" prop="money" width="90"></el-table-column>
               <el-table-column label="创建时间" prop="updateTime"></el-table-column>
             </el-table>
           </div>
@@ -80,10 +86,11 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { Edit, Delete } from '@element-plus/icons-vue'
 import { allPatientService } from '@/api/patient.js'
-import {getUserAppointment} from '@/api/appointments.js'
+import { getUserAppointment } from '@/api/appointments.js'
+
 // Patients data model
 const allPatients = ref([])
 
@@ -100,11 +107,6 @@ const fetchPatients = async () => {
     const result = await allPatientService(params)
     total.value = result.data.total;
     allPatients.value = result.data.items;
-
-    // Fetch appointments for each patient
-    result.data.items.forEach(async (patient) => {
-      await fetchAppointments(patient.patientId);
-    });
   } catch (error) {
     console.error('获取患者数据失败', error)
   }
@@ -122,6 +124,24 @@ const fetchAppointments = async (patientId) => {
     console.error('获取预约数据失败', error)
   }
 }
+
+// Handle row expansion
+const onExpandChange = (expanded, row) => {
+  console.log('Row data:', row); // Log the row to inspect its structure
+
+  if (expanded) {
+    if (Array.isArray(row) && row.length > 0) {
+      const rowData = row[0]; // Access the first item in the array
+      if (rowData && rowData.patientId) {
+        fetchAppointments(rowData.patientId);
+      } else {
+        console.error('patientId is missing from the row data:', rowData);
+      }
+    } else {
+      console.error('Expected an array with at least one item, but got:', row);
+    }
+  }
+};
 
 const dialogVisible = ref(false)
 const categoryModel = ref({
@@ -154,7 +174,17 @@ const onCurrentChange = (num) => {
   pageNum.value = num;
   fetchPatients()
 };
-
+const getRole=(role)=>{
+  switch (role){
+    case '已确认':
+      return 'success';
+    case '待确认':
+      return 'primary';
+    case '已取消':
+      return 'default'
+  }
+}
+// Fetch initial patients data
 fetchPatients()
 </script>
 
@@ -208,5 +238,8 @@ fetchPatients()
   .el-input {
     border-radius: 10px;
   }
+}
+.h3y{
+  margin-left: 20px;
 }
 </style>

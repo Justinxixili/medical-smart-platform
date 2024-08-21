@@ -2,6 +2,7 @@ package com.medical.patient.service.Impl;
 
 
 
+import com.alibaba.cloud.commons.lang.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 
@@ -51,6 +52,7 @@ public class PatientServiceImpl  implements PatientService {
         PageHelper.startPage(pageNum, pageSize);
         List<Patient> patients = patientMapper.findAll();
         // 遍历所有的患者，利用 Feign Client 获取用户信息和药品信息
+
         for (Patient patient : patients) {
             // 通过 UserClient 获取用户信息
             User user = iUserClient.findUserById(patient.getUserId());
@@ -62,6 +64,12 @@ public class PatientServiceImpl  implements PatientService {
             Medicine medicine = iMedicineClient.findMedicineById(patient.getCurrentMedications());
             if (medicine != null) {
                 patient.setCurrentMedicationName(medicine.getName());
+            }
+            if (StringUtils.isEmpty(patient.getFamilyMedicalHistory())) {
+                patient.setFamilyMedicalHistory("无家族病史");
+            }
+            if (StringUtils.isEmpty(patient.getAllergies())) {
+                patient.setAllergies("无过敏史");
             }
         }
         Page<Patient> p = (Page<Patient>) patients;

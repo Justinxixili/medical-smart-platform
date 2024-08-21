@@ -136,7 +136,7 @@ public class UserServiceImpl  implements UserService {
 
         User u = userMapper.findByPhone(phone);
         if (u == null) {
-            return Result.error("用户名错误");
+            return Result.error("没有找到此用户");
         }
 
         if (Md5Util.getMD5String(password).equals(u.getPassword())) {

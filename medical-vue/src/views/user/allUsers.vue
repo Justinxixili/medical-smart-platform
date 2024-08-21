@@ -7,24 +7,27 @@
     </template>
     <el-table :data="allUsers" style="width: 100%">
       <el-table-column label="序号" width="100" type="index"></el-table-column>
-      <el-table-column label="角色" prop="role">
+      <el-table-column label="姓名" prop="username" width="160">
         <template #default="{ row }">
-          <span :style="getRoleStyle(row.role)">{{ row.role }}</span>
+          <span>{{ row.username }}</span>
+          <el-tag :type="getRoleTagType(row.role)" style="margin-left: 20px;">
+            {{ row.role }}
+          </el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="姓名" prop="username"></el-table-column>
+      <el-table-column label="性别" prop="gender" width="100"></el-table-column>
       <el-table-column label="手机号" prop="phone" width="120"></el-table-column>
       <el-table-column label="身份证号" prop="identity" width="150">
         <template #default="{ row }">
           {{ maskIdentity(row.identity) }}
         </template>
       </el-table-column>
-      <el-table-column label="性别" prop="gender"></el-table-column>
-      <el-table-column label="出生日期" prop="birth"></el-table-column>
-      <el-table-column label="地址" prop="address"></el-table-column>
+
+      <el-table-column label="出生日期" prop="birth" width="150"></el-table-column>
+      <el-table-column label="地址" prop="address" width="150"></el-table-column>
       <el-table-column label="邮箱" prop="email"></el-table-column>
       <el-table-column label="更新时间" prop="updateTime"></el-table-column>
-      <el-table-column label="头像" prop="userPic">
+      <el-table-column label="头像" prop="userPic" width="90">
         <template #default="{ row }">
           <el-avatar :src="row.userPic || avatar"></el-avatar>
         </template>
@@ -174,18 +177,6 @@ const allUsersServer = async () => {
 
 allUsersServer()
 
-const getRoleStyle = (role) => {
-  switch (role) {
-    case 'doctor':
-      return { color: 'blue' }
-    case 'patient':
-      return { color: 'green' }
-    case 'admin':
-      return { color: 'red' }
-    default:
-      return {}
-  }
-}
 
 // 删除用户
 const deleteUser = (row) => {
@@ -211,6 +202,19 @@ const maskIdentity = (identity) => {
   if (!identity) return '';
   return identity.replace(/^(.{6})(?:\d+)(.{4})$/, '$1******$2');
 }
+const getRoleTagType = (role) => {
+  switch(role) {
+    case 'admin':
+      return 'danger';
+    case 'doctor':
+      return 'success';
+    case 'patient':
+      return 'primary';
+    default:
+      return 'default';
+  }
+};
+
 </script>
 
 <style lang="scss" scoped>

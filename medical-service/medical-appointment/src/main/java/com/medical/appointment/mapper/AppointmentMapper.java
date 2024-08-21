@@ -32,7 +32,7 @@ public interface AppointmentMapper {
 
 
     @Select("SELECT * FROM appointment WHERE patient_id=#{patientId}")
-    List<Appointment> findMyClientUserId(Integer patientId);
+    List<Appointment> findMyClientPatietnId(Integer patientId);
 
 
 }

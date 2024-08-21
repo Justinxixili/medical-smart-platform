@@ -63,18 +63,12 @@ public class AppointmentServiceImpl implements AppointmentService{
         if (patient == null) {
             return Result.error("无效的患者ID");
         }
-
         // 验证科室是否存在
       Department department = iDepartmentClient.findDepartmentById(appointment.getDepartmentId());
         if (department == null) {
             return Result.error("无效的科室ID");
         }
-
-
-
-
         // 设置其他相关信息
-
         appointment.setDepartmentName(department.getName());
         appointment.setCampus(department.getCampus());
         appointment.setAddress(department.getAddress());
@@ -83,7 +77,6 @@ public class AppointmentServiceImpl implements AppointmentService{
         LocalDate localDate = LocalDate.now();
         Date today = java.sql.Date.valueOf(localDate);
         appointment.setAppointmentDate(today);
-
         // 插入预约记录
         appointmentMapper.insert(appointment);
         return Result.success("预约创建成功");
@@ -112,10 +105,14 @@ public class AppointmentServiceImpl implements AppointmentService{
     public Result getAppointmentsByUserId(Integer userId) {
         // 获取患者信息
         Patient topatient = iPatientClient.findUserId(userId);
-
+        if (topatient == null) {
+            return Result.error("未找到该患者");
+        }
         // 获取该患者的所有预约
-        List<Appointment> appointments = appointmentMapper.findMyClientUserId(topatient.getPatientId());
-
+        List<Appointment> appointments = appointmentMapper.findMyClientPatietnId(topatient.getPatientId());
+        if (appointments == null || appointments.isEmpty()) {
+            return Result.success("没有找到此预约");
+        }
         if (appointments != null && !appointments.isEmpty()) {
             // 并行处理每个预约的信息填充
             appointments.parallelStream().forEach(appointment -> {
@@ -124,13 +121,13 @@ public class AppointmentServiceImpl implements AppointmentService{
                 Department department = iDepartmentClient.findDepartmentById(doctor.getDepartmentId());
                 User patientUser = iUserClient.findUserById(patient.getUserId());
                 User doctorUser = iUserClient.findUserById(doctor.getUserId());
-
                 // 设置预约详细信息
                 appointment.setPatientName(patientUser.getUsername());
                 appointment.setDoctorName(doctorUser.getUsername());
                 appointment.setDepartmentName(department.getName());
                 appointment.setCampus(department.getCampus());
                 appointment.setAddress(department.getAddress());
+                appointment.setDepartmentPhone(department.getDepartmentPhone());
             });
 
             // 准备返回的数据
@@ -145,7 +142,7 @@ public class AppointmentServiceImpl implements AppointmentService{
 
     @Override
     public Result getApUserId(Integer patientId) {
-        List<Appointment> appointments = appointmentMapper.findMyClientUserId(patientId);
+        List<Appointment> appointments = appointmentMapper.findMyClientPatietnId(patientId);
         if(appointments !=null && !appointments.isEmpty()){
             for(Appointment appointment :appointments){
                 Patient patient=iPatientClient.findPatientById(appointment.getPatientId());

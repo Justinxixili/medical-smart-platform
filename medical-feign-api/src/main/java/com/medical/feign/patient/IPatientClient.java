@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.PathVariable;
  */
 @FeignClient("medical-patient")
 public interface IPatientClient {
-    @GetMapping("/patients/client/{patientId}")
+    @GetMapping("/patient/client/{patientId}")
     Patient findPatientById(@PathVariable("patientId") Integer patientId);
 
 
-    @GetMapping("/patients/client/userId/{userId}")
+    @GetMapping("/patient/client/userId/{userId}")
     Patient findUserId(@PathVariable("userId") Integer userId);
 }
