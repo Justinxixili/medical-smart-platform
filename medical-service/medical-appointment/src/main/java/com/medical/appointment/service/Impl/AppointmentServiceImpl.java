@@ -74,9 +74,9 @@ public class AppointmentServiceImpl implements AppointmentService{
         appointment.setAddress(department.getAddress());
         String code = generateCode(LocalDateTime.now(), department.getId());
         appointment.setCode(code);
-        LocalDate localDate = LocalDate.now();
-        Date today = java.sql.Date.valueOf(localDate);
-        appointment.setAppointmentDate(today);
+
+
+        appointment.setAppointmentDate(appointment.getAppointmentDate());
         // 插入预约记录
         appointmentMapper.insert(appointment);
         return Result.success("预约创建成功");
@@ -108,8 +108,9 @@ public class AppointmentServiceImpl implements AppointmentService{
         if (topatient == null) {
             return Result.error("未找到该患者");
         }
+
         // 获取该患者的所有预约
-        List<Appointment> appointments = appointmentMapper.findMyClientPatietnId(topatient.getPatientId());
+        List<Appointment> appointments = appointmentMapper.findPatientStatus(topatient.getPatientId());
         if (appointments == null || appointments.isEmpty()) {
             return Result.success("没有找到此预约");
         }

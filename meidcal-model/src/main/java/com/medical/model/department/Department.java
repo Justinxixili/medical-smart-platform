@@ -16,4 +16,5 @@ public class Department {
     private String campus;
     private String address;
     private String departmentPhone;
+    private String codeType;
 }

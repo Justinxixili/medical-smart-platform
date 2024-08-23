@@ -31,8 +31,9 @@ public interface AppointmentMapper {
     void delete(@Param("id") Integer id);
 
 
-    @Select("SELECT * FROM appointment WHERE patient_id=#{patientId}")
+    @Select("SELECT * FROM appointment WHERE patient_id=#{patientId} ")
     List<Appointment> findMyClientPatietnId(Integer patientId);
 
-
+    @Select("SELECT * FROM appointment WHERE patient_id=#{patientId} ")
+    List<Appointment> findPatientStatus(Integer patientId);
 }

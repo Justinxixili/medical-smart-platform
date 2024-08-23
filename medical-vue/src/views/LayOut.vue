@@ -71,7 +71,7 @@ const outLogin = () => {
             <el-icon>
               <Crop/>
             </el-icon>
-            <span>权限管理</span>
+            <span>角色管理</span>
           </el-menu-item>
         </el-sub-menu>
         <!-- 医生管理 -->
@@ -94,6 +94,19 @@ const outLogin = () => {
             </el-icon>
             <span>医生聘用和辞职管理</span>
           </el-menu-item>
+          <el-menu-item index="/user/allDoctor">
+            <el-icon>
+              <User/>
+            </el-icon>
+            <span>部门管理</span>
+          </el-menu-item>
+          <el-menu-item index="/user/allDoctor">
+            <el-icon>
+              <User/>
+            </el-icon>
+            <span>岗位管理</span>
+          </el-menu-item>
+
         </el-sub-menu>
         <!-- 患者和预约管理 -->
         <el-sub-menu index="3">
@@ -158,27 +171,18 @@ const outLogin = () => {
             <el-icon>
               <Setting/>
             </el-icon>
-            <span>系统设置</span>
+            <span>系统管理</span>
           </template>
-          <el-menu-item index="/user/info">
-            <el-icon>
-              <User/>
-            </el-icon>
-            <span>基本资料</span>
-          </el-menu-item>
-          <el-menu-item index="/user/avatar">
-            <el-icon>
-              <Crop/>
-            </el-icon>
-            <span>编辑我的信息</span>
-          </el-menu-item>
+
           <el-menu-item index="/system/logs">
             <el-icon>
               <EditPen/>
             </el-icon>
-            <span>重置密码</span>
+            <span>菜单管理</span>
           </el-menu-item>
+
         </el-sub-menu>
+
         <!-- 通知和消息 -->
         <el-sub-menu index="7">
           <template #title>
