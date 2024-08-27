@@ -17,8 +17,8 @@ import java.util.List;
 @Mapper
 public interface AppointmentMapper {
 
-    @Insert("INSERT INTO appointment (patient_id, department_id, status, create_time, update_time, appointment_date, code, money,appointment_type) " +
-            "VALUES (#{patientId}, #{departmentId}, #{status}, #{createTime}, #{updateTime}, #{appointmentDate}, #{code}, #{money},#{appointmentType})")
+    @Insert("INSERT INTO appointment (patient_id, department_id, status, create_time, update_time, appointment_date, code, money) " +
+            "VALUES (#{patientId}, #{departmentId}, #{status}, #{createTime}, #{updateTime}, #{appointmentDate}, #{code}, #{money})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void insert(Appointment appointment);
 
@@ -34,6 +34,6 @@ public interface AppointmentMapper {
     @Select("SELECT * FROM appointment WHERE patient_id=#{patientId} ")
     List<Appointment> findMyClientPatietnId(Integer patientId);
 
-    @Select("SELECT * FROM appointment WHERE patient_id=#{patientId} AND status='已预约'")
+    @Select("SELECT * FROM appointment WHERE patient_id=#{patientId} ")
     List<Appointment> findPatientStatus(Integer patientId);
 }

@@ -6,6 +6,9 @@ package com.medical.appointment.service.Impl;
  * @date 2024-07-09 21:29
  */
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+
 import com.medical.appointment.mapper.AppointmentMapper;
 import com.medical.appointment.service.AppointmentService;
 import com.medical.feign.department.IDepartmentClient;
@@ -13,17 +16,21 @@ import com.medical.feign.doctor.IDoctorClient;
 import com.medical.feign.patient.IPatientClient;
 import com.medical.feign.user.IUserClient;
 import com.medical.model.appointment.Appointment;
+import com.medical.model.common.dtos.PageBean;
 import com.medical.model.common.dtos.Result;
 import com.medical.model.department.Department;
 import com.medical.model.doctor.Doctor;
 import com.medical.model.patient.Patient;
 import com.medical.model.user.pojos.User;
+import com.medical.utils.thread.ThreadLocalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,6 +108,7 @@ public class AppointmentServiceImpl implements AppointmentService{
         if (topatient == null) {
             return Result.error("未找到该患者");
         }
+
         // 获取该患者的所有预约
         List<Appointment> appointments = appointmentMapper.findPatientStatus(topatient.getPatientId());
         if (appointments == null || appointments.isEmpty()) {
@@ -110,15 +118,19 @@ public class AppointmentServiceImpl implements AppointmentService{
             // 并行处理每个预约的信息填充
             appointments.parallelStream().forEach(appointment -> {
                 Patient patient = iPatientClient.findPatientById(appointment.getPatientId());
-                Department department = iDepartmentClient.findDepartmentById(appointment.getDepartmentId());
+                Doctor doctor = iDoctorClient.findDoctorById(appointment.getDoctorId());
+                Department department = iDepartmentClient.findDepartmentById(doctor.getDepartmentId());
                 User patientUser = iUserClient.findUserById(patient.getUserId());
+                User doctorUser = iUserClient.findUserById(doctor.getUserId());
                 // 设置预约详细信息
                 appointment.setPatientName(patientUser.getUsername());
+                appointment.setDoctorName(doctorUser.getUsername());
                 appointment.setDepartmentName(department.getName());
                 appointment.setCampus(department.getCampus());
                 appointment.setAddress(department.getAddress());
                 appointment.setDepartmentPhone(department.getDepartmentPhone());
             });
+
             // 准备返回的数据
             Map<String, Object> data = new HashMap<>();
             data.put("total", appointments.size());
@@ -153,39 +165,5 @@ public class AppointmentServiceImpl implements AppointmentService{
             return Result.success("没有找到此预约");
         }
 
-    }
-
-    @Override
-    public Result getAppointmentUsername(String username,String identity) {
-        User user=iUserClient.findUserByUsername(username,identity);
-        // 获取患者信息
-        Patient topatient = iPatientClient.findUserId(user.getId());
-        if (topatient == null) {
-            return Result.error("未找到该患者");
-        }
-        // 获取该患者的所有预约
-        List<Appointment> appointments = appointmentMapper.findMyClientPatietnId(topatient.getPatientId());
-        if (appointments == null || appointments.isEmpty()) {
-            return Result.success("没有找到此预约");
-        }
-        if (appointments != null && !appointments.isEmpty()) {
-            // 并行处理每个预约的信息填充
-            appointments.parallelStream().forEach(appointment -> {
-                Patient patient = iPatientClient.findPatientById(appointment.getPatientId());
-                Department department = iDepartmentClient.findDepartmentById(appointment.getDepartmentId());
-                User patientUser = iUserClient.findUserById(patient.getUserId());
-                // 设置预约详细信息
-                appointment.setPatientName(patientUser.getUsername());
-                appointment.setDepartmentName(department.getName());
-                appointment.setCampus(department.getCampus());
-                appointment.setAddress(department.getAddress());
-                appointment.setDepartmentPhone(department.getDepartmentPhone());
-            });
-            // 准备返回的数据
-
-            return Result.success(appointments);
-        } else {
-            return Result.success("没有找到此预约");
-        }
     }
 }

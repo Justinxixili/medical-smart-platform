@@ -5,9 +5,7 @@ import com.medical.model.common.dtos.Result;
 import com.medical.model.user.dtos.LoginRequest;
 import com.medical.model.user.dtos.LoginResponse;
 import com.medical.model.user.dtos.RegisterRequest;
-import com.medical.model.user.pojos.Menu;
 import com.medical.model.user.pojos.User;
-import com.medical.user.service.MenuService;
 import com.medical.user.service.UserService;
 import com.medical.utils.thread.ThreadLocalUtil;
 import org.hibernate.validator.constraints.URL;
@@ -15,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,8 +29,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private MenuService menuService;
     /**
      * 用户注册
      * @param registerRequest 注册请求对象，包含手机号、密码、身份、用户名和角色
@@ -145,36 +139,5 @@ public class UserController {
     public Result<PageBean<User>> getAllUsers(@RequestParam Integer pageNum, @RequestParam Integer pageSize) {
         PageBean<User> users = userService.getAllUsers(pageNum, pageSize);
         return Result.success(users);
-    }
-    /**
-     * 获取所有菜单项
-     * @return 包含菜单项的结果
-     */
-    @GetMapping("/menus")
-    public Result<List<Menu>> getAllMenus() {
-
-        return menuService.getAllMenus();
-    }
-
-    /**
-     * 保存一个新菜单项
-     * @param menu 菜单项对象
-     * @return 保存后的菜单项
-     */
-    @PostMapping("/menus")
-    public Result<Menu> createMenu(@RequestBody Menu menu) {
-
-        return menuService.saveMenu(menu);
-    }
-
-    /**
-     * 删除一个菜单项
-     * @param id 菜单项ID
-     * @return 删除结果
-     */
-    @DeleteMapping("/menus/{id}")
-    public Result<Void> deleteMenu(@PathVariable Integer id) {
-
-        return menuService.deleteMenu(id);
     }
 }

@@ -9,6 +9,9 @@ import com.medical.model.user.dtos.LoginResponse;
 import com.medical.model.user.dtos.RegisterRequest;
 import com.medical.model.user.pojos.User;
 
+
+import java.util.List;
+
 /**
  * @author 王祥俊
  * @version 1.0
@@ -42,6 +45,4 @@ public interface UserService  {
     Result forgotPassword(LoginRequest forgotPasswordRequest);
 
  User getById(Integer id);
-
-    User findByUsername(String username,String identity);
 }

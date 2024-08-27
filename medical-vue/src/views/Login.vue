@@ -1,10 +1,6 @@
 <script setup>
+import { User, Lock, Iphone, CreditCard } from '@element-plus/icons-vue'
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { jwtDecode } from 'jwt-decode';
-import { ElMessage } from 'element-plus'
-import { userRegisterService, userLoginServer } from '@/api/user.js'
-import { userTokenStore } from '@/stores/token.js'
 
 // 控制注册与登录表单的显示， 默认显示注册
 const isRegister = ref(false)
@@ -76,8 +72,13 @@ const rules = {
   ]
 }
 
+import { userRegisterService, userLoginServer } from '@/api/user.js'
+import { useRouter } from 'vue-router'
+import { userTokenStore } from '@/stores/token.js'
+
 const tokenStore = userTokenStore()
 const router = useRouter()
+import { ElMessage } from 'element-plus'
 
 const register = async () => {
   let result = await userRegisterService(registerData.value)
@@ -88,34 +89,19 @@ const register = async () => {
 const login = async () => {
   let result = await userLoginServer(loginData.value)
 
-  // 设置 token
-  tokenStore.setToken(result.data)
-
-  try {
-    // 解码 token
-    const decodedToken = jwtDecode(result.data)
-    console.log("Decoded Token:", decodedToken)
-
-    // 从解码的 token 中提取用户角色
-    const userRole = decodedToken.claims.role
-    console.log("User Role:", userRole)
-
-    // 根据用户角色进行导航
-    if (userRole === 'admin') {
-      ElMessage.success(result.msg ? result.msg : '登录成功')
-      router.push('/user/allUsers')
-    } else {
-      ElMessage.error('只允许管理员登录')
-    }
-  } catch (error) {
-    ElMessage.error('Token 解码失败: ' + error.message)
+  tokenStore.setToken(result.data.token)
+  if (result.data.role === 'admin') {
+    ElMessage.success(result.msg ? result.msg : '登录成功')
+    router.push('user/allUsers')
+  } else {
+    ElMessage.error('只允许管理员登录')
   }
 }
 </script>
 
 <template>
   <el-row class="login-page">
-    <!-- 背景图片与滑动效果 -->
+    <!-- 背景图片与滑动-->
     <el-col :span="12" :class="[{ 'slide-right': isRegister, 'slide-left': !isRegister }, 'bg']"></el-col>
     <el-col :span="12" class="form-container">
       <el-row :class="[{ 'form-slide-right': isRegister, 'form-slide-left': !isRegister },'form']">

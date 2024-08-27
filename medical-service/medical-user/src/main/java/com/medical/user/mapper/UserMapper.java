@@ -81,7 +81,4 @@ public interface UserMapper{
     User findByIdentity(@Param("identity") String identity);
     @Select("SELECT * FROM user WHERE id = #{id}")
     User getById(@Param("id")Integer id);
-    @Select("SELECT * FROM user WHERE username = #{username} AND identity = #{identity}")
-    User findByUsername(String username,String identity);
-
 }

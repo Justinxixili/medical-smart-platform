@@ -20,13 +20,11 @@ import Report from "@/views/report/Report.vue";
 import  myindex from "@/views/myindex.vue";
 import webindex from "@/views/webitem/webindex.vue"
 import doctorindex from '@/views/webitem/doctorindex.vue'
-import Menu from '@/views/user/Menu.vue'
-import webAappointment from '@/views/webitem/webAppointment.vue'
 const routes=[
     {path:'/myindex/web',component: myindex},
 
     {path:'/',component:LayOut,redirect:'/webindex',meta:{title:"首页"},children:[
-            {path:'user/menu',component:Menu},
+
             {path:'article/category',component:ArticleCategory},
             {path:'article/manage',component:ArticleManage},
             {path:'user/info',component:UserInfo,meta:{title:"用户信息"}},
@@ -48,7 +46,6 @@ const routes=[
                 {path: '/webindex',component: webindex},
                 {path: '/doctorindex',component: doctorindex},
                 {path:'/adminLogin',component:LoginVue},
-                {path: '/webAappointment', component: webAappointment}
             ]},
 ]
 

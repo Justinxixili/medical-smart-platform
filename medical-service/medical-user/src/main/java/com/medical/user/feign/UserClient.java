@@ -4,7 +4,9 @@ import com.medical.feign.user.IUserClient;
 import com.medical.model.user.pojos.User;
 import com.medical.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author 王祥俊
@@ -19,12 +21,5 @@ public class UserClient implements IUserClient {
     @GetMapping("/user/client/{id}")
     public User findUserById(@PathVariable("id") Integer id) {
         return userService.getById(id);
-    }
-
-    @Override
-   @GetMapping("/user/client/username")
-    public User findUserByUsername( @RequestParam String username,
-                                    @RequestParam String identity ) {
-        return userService.findByUsername(username, identity);
     }
 }

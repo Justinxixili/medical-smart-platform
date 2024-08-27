@@ -9,6 +9,7 @@ import com.github.pagehelper.PageHelper;
 import com.medical.model.common.dtos.PageBean;
 import com.medical.model.common.dtos.Result;
 import com.medical.model.user.dtos.LoginRequest;
+import com.medical.model.user.dtos.LoginResponse;
 import com.medical.model.user.dtos.RegisterRequest;
 import com.medical.model.user.pojos.User;
 import com.medical.user.mapper.UserMapper;
@@ -129,7 +130,7 @@ public class UserServiceImpl  implements UserService {
      * @return 登录结果封装在Result对象中
      */
     @Override
-    public Result loginForPassword(LoginRequest loginRequest) {
+    public Result<LoginResponse> loginForPassword(LoginRequest loginRequest) {
         String phone = loginRequest.getPhone();
         String password = loginRequest.getPassword();
 
@@ -148,8 +149,8 @@ public class UserServiceImpl  implements UserService {
             ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
             operations.set(token, token, 1, TimeUnit.HOURS);
 
-
-            return Result.success(token);
+            LoginResponse response = new LoginResponse(token, u.getId(), u.getRole(), u.getUsername(), u.getPhone());
+            return Result.success(response);
         }
         return Result.error("密码错误");
     }
@@ -160,7 +161,7 @@ public class UserServiceImpl  implements UserService {
      * @return 登录结果封装在Result对象中
      */
     @Override
-    public Result loginForPhone(LoginRequest loginRequest) {
+    public Result<LoginResponse> loginForPhone(LoginRequest loginRequest) {
         String phone = loginRequest.getPhone();
         String code = loginRequest.getCode();
 
@@ -187,8 +188,8 @@ public class UserServiceImpl  implements UserService {
         storeTokenInRedis(token, user);
 
         // 构建响应
-
-        return Result.success(token);
+        LoginResponse response = new LoginResponse(token, user.getId(), user.getRole(), user.getUsername(), user.getPhone());
+        return Result.success(response);
     }
 
     /**
@@ -274,11 +275,6 @@ public class UserServiceImpl  implements UserService {
     @Override
     public User getById(Integer id) {
         return userMapper.getById(id);
-    }
-
-    @Override
-    public User findByUsername(String username,String identity) {
-        return userMapper.findByUsername(username,identity);
     }
 
     /**

@@ -8,11 +8,19 @@ package com.medical.appointment.controller;
 
 
 import com.medical.appointment.service.AppointmentService;
+import com.medical.appointment.service.Impl.AppointmentServiceImpl;
 import com.medical.model.appointment.Appointment;
+import com.medical.model.common.dtos.PageBean;
 import com.medical.model.common.dtos.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RefreshScope
 @RestController
@@ -34,11 +42,7 @@ public class AppointmentController {
 
         return appointmentService.getAppointmentsByUserId(userId);
     }
-    @GetMapping("/username")
-    public Result getAppointmentsByUsername(@RequestParam String username,
-                                            @RequestParam String identity ) {
-        return appointmentService.getAppointmentUsername(username,identity);
-    }
+
     @GetMapping("/client/detail")
     public Result getApUserId(@RequestParam Integer patientId) {
 

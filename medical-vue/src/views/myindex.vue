@@ -70,11 +70,9 @@
       <view class="navbar-right">
         <!-- 按钮 -->
         <view class="buttons">
-          <router-link to="/webAappointment" class="mylinks">
           <button class="btn-primary">
             预约及查询
           </button>
-          </router-link>
         </view>
       </view>
     </view>

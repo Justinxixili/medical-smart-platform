@@ -1,7 +1,11 @@
 package com.medical.appointment.service;
 
 import com.medical.model.appointment.Appointment;
+import com.medical.model.common.dtos.PageBean;
 import com.medical.model.common.dtos.Result;
+
+import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @author 王祥俊
@@ -21,6 +25,4 @@ public interface AppointmentService {
 
 
     Result getApUserId(Integer patientId);
-
-    Result getAppointmentUsername(String username,String identity);
 }
