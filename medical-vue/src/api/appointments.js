@@ -25,3 +25,11 @@ export const getAllAppointments = () => {
     return request.get(`/appointment/appointments/date`);
 
 }
+
+
+
+export const getUsernameAppointment = (username, identity) => {
+    return request.get(`/appointment/appointments/username`, {
+        params: { username, identity }
+    });
+};

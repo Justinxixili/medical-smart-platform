@@ -33,3 +33,17 @@ export const UserDeleteServer = (id) => {
 export const UserUpdateServer = (AllUserModel) => {
     return request.put('/user/user/update', AllUserModel)
 }
+
+
+//获取菜单详细信息
+export  const getAllMenus=()=>{
+    return request.get('/user/user/menus')
+
+}
+export const creatMenu=(menu)=>{
+
+    return  request.post('/user/user/menus',menu);
+}
+export const deleteMenu = (id) => {
+    return request.delete(`/user/user/menus/${id}`);
+}

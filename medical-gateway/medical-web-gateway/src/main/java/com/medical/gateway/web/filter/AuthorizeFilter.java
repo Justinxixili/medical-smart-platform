@@ -40,7 +40,8 @@ public class AuthorizeFilter implements Ordered, GlobalFilter {
                 path.contains("/user/code") ||
                 path.contains("/user/register") ||
                 path.contains("/user/forgotPassword") ||
-                path.contains("/user/loginForPhone")) {
+                path.contains("/user/loginForPhone")||
+                path.contains("/appointments/username")){
             return chain.filter(exchange);
         }
 

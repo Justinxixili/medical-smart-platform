@@ -27,8 +27,8 @@ public class Appointment {
     private String appointmentType;
     private String doctorName;
     private String departmentName;
-    @JsonFormat(pattern = "yyy年MM月dd日 HH:mm:ss")
-    private Date appointmentDate;
+    @JsonFormat(pattern = "yyy年MM月dd日 HH:mm")
+    private LocalDateTime appointmentDate;
     @JsonFormat(pattern = "yyy年MM月dd日 HH:mm:ss")
     private LocalDateTime createTime;//创建时间
     @JsonFormat(pattern = "yyy年MM月dd日 HH:mm:ss")
