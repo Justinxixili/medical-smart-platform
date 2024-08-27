@@ -1,44 +1,3 @@
-<script setup>
-import {UserFilled, Grid, Bell, Setting, Box, Link, CaretBottom, CreditCard, User, Crop, EditPen, SwitchButton, List, ArrowRight} from '@element-plus/icons-vue';
-import { ref, reactive, onMounted } from 'vue';
-import { UserInfoServer } from "@/api/user.js";
-import { getAllAppointments } from "@/api/appointments.js";
-import userUserInfoStore from '@/stores/userInfo.js';
-
-const userInfoStore = userUserInfoStore();
-
-// Fetch user info
-const getUserInfo = async () => {
-  let result = await UserInfoServer();
-  userInfoStore.setInfo(result.data);
-}
-
-const activeMenu = ref('');
-const handleOpen = (index) => {
-  activeMenu.value = index;
-}
-const handleClose = (index) => {
-  if (activeMenu.value === index) {
-    activeMenu.value = '';
-  }
-}
-
-import {useRouter} from "vue-router";
-
-const router = useRouter();
-const handleCommand = (command) => {
-  if (command === 'logout') {
-    alert('退出登录');
-  } else {
-    router.push('/user/' + command);
-  }
-}
-const outLogin = () => {
-  router.push('/adminLogin');
-}
-
-</script>
-
 <template>
   <el-container class="layout-container">
     <el-aside width="260px" class="el-aside--nav">
@@ -48,162 +7,35 @@ const outLogin = () => {
           background-color="#F9F9F9"
           text-color="#232323"
           router
-          :default-openeds="[activeMenu]"
+          :default-openeds="defaultOpeneds"
+          :default-active="activeMenu"
           @open="handleOpen"
           @close="handleClose"
-
       >
-        <!-- 用户管理 -->
-        <el-sub-menu index="1">
-          <template #title>
-            <el-icon>
-              <UserFilled/>
-            </el-icon>
-            <span>用户管理</span>
-          </template>
-          <el-menu-item index="/user/allUsers">
-            <el-icon>
-              <CreditCard/>
-            </el-icon>
-            <span>用户账户管理</span>
-          </el-menu-item>
-          <el-menu-item index="/user/usercontro">
-            <el-icon>
-              <Crop/>
-            </el-icon>
-            <span>角色管理</span>
-          </el-menu-item>
-        </el-sub-menu>
-        <!-- 医生管理 -->
-        <el-sub-menu index="2">
-          <template #title>
-            <el-icon>
-              <UserFilled/>
-            </el-icon>
-            <span>医生管理</span>
-          </template>
-          <el-menu-item index="/user/allDoctor">
-            <el-icon>
-              <User/>
-            </el-icon>
-            <span>医生账户管理</span>
-          </el-menu-item>
-          <el-menu-item index="/doctor/hiring">
-            <el-icon>
-              <Crop/>
-            </el-icon>
-            <span>医生聘用和辞职管理</span>
-          </el-menu-item>
-          <el-menu-item index="/user/allDoctor">
-            <el-icon>
-              <User/>
-            </el-icon>
-            <span>部门管理</span>
-          </el-menu-item>
-          <el-menu-item index="/user/allDoctor">
-            <el-icon>
-              <User/>
-            </el-icon>
-            <span>岗位管理</span>
-          </el-menu-item>
+        <template v-for="menu in menus" :key="menu.id">
+          <el-sub-menu
+              v-if="menu.parentId === null"
+              :index="menu.route || menu.id.toString()"
+          >
+            <template #title>
 
-        </el-sub-menu>
-        <!-- 患者和预约管理 -->
-        <el-sub-menu index="3">
-          <template #title>
-            <el-icon>
-              <Link/>
-            </el-icon>
-            <span>患者和预约</span>
-          </template>
-          <el-menu-item index="/user/allPatients">
-            <el-icon>
-              <User/>
-            </el-icon>
-            <span>患者信息管理</span>
-          </el-menu-item>
-          <el-menu-item index="/appointment/manage">
-            <el-icon>
-              <Grid/>
-            </el-icon>
-            <span>预约管理</span>
-          </el-menu-item>
-        </el-sub-menu>
-        <!-- 药品和库存管理 -->
-        <el-sub-menu index="4">
-          <template #title>
-            <el-icon>
-              <Box/>
-            </el-icon>
-            <span>药品和库存</span>
-          </template>
-          <el-menu-item index="/user/allMedicine">
-            <el-icon>
-              <User/>
-            </el-icon>
-            <span>药品信息管理</span>
-          </el-menu-item>
-        </el-sub-menu>
-        <!-- 报表和统计 -->
-        <el-sub-menu index="5">
-          <template #title>
-            <el-icon>
-              <List/>
-            </el-icon>
-            <span>报表和统计</span>
-          </template>
-          <el-menu-item index="/appointment/wwww">
-            <el-icon>
-              <User/>
-            </el-icon>
-            <span>报表生成</span>
-          </el-menu-item>
-          <el-menu-item index="/user/date">
-            <el-icon>
-              <Crop/>
-            </el-icon>
-            <span>数据分析</span>
-          </el-menu-item>
-        </el-sub-menu>
-        <!-- 系统设置 -->
-        <el-sub-menu index="6">
-          <template #title>
-            <el-icon>
-              <Setting/>
-            </el-icon>
-            <span>系统管理</span>
-          </template>
-
-          <el-menu-item index="/system/logs">
-            <el-icon>
-              <EditPen/>
-            </el-icon>
-            <span>菜单管理</span>
-          </el-menu-item>
-
-        </el-sub-menu>
-
-        <!-- 通知和消息 -->
-        <el-sub-menu index="7">
-          <template #title>
-            <el-icon>
-              <Bell/>
-            </el-icon>
-            <span>通知和消息</span>
-          </template>
-          <el-menu-item index="/notifications/manage">
-            <el-icon>
-              <User/>
-            </el-icon>
-            <span>通知管理</span>
-          </el-menu-item>
-          <el-menu-item index="">
-            <el-icon>
-              <Crop/>
-            </el-icon>
-            <span>消息管理</span>
-          </el-menu-item>
-        </el-sub-menu>
+              <el-icon>
+                <component :is="icons[menu.icon]" />
+              </el-icon>
+              <span>{{ menu.title }}</span>
+            </template>
+            <el-menu-item
+                v-for="subMenu in menus.filter(sub => sub.parentId === menu.id)"
+                :key="subMenu.id"
+                :index="subMenu.route"
+            >
+              <el-icon>
+                <component :is="icons[subMenu.icon]" />
+              </el-icon>
+              <span>{{ subMenu.title }}</span>
+            </el-menu-item>
+          </el-sub-menu>
+        </template>
       </el-menu>
     </el-aside>
 
@@ -211,22 +43,20 @@ const outLogin = () => {
       <el-header class="el-header--nav">
         <div class="breadcrumb">
           <el-breadcrumb :separator-icon="ArrowRight">
-
             <el-breadcrumb-item
-                v-for="(item,index) in $route.matched"
+                v-for="(item, index) in $route.matched"
                 :key="index"
-                :to="{path:item.path }"
-            >{{item.meta.title}}</el-breadcrumb-item>
-
+                :to="{ path: item.path }"
+            >{{ item.meta.title }}</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
 
         <div class="el-header--user">
           <el-dropdown placement="bottom-end" @command="handleCommand">
             <span class="el-dropdown__box">
-              <el-avatar :src="userInfoStore.info.userPic ? userInfoStore.info.userPic : avatar"/>
+              <el-avatar :src="userInfoStore.info.userPic ? userInfoStore.info.userPic : avatar" />
               <el-icon>
-                <CaretBottom/>
+                <CaretBottom />
               </el-icon>
             </span>
             <template #dropdown>
@@ -248,6 +78,101 @@ const outLogin = () => {
     </el-container>
   </el-container>
 </template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import { getAllMenus } from '@/api/user.js'; // 引入获取菜单的函数
+import {
+  UserFilled, Grid, Bell, Setting, Box, Link, CaretBottom, CreditCard,
+  User, Crop, EditPen, SwitchButton, List, ArrowRight
+} from '@element-plus/icons-vue';
+import userUserInfoStore from '@/stores/userInfo.js';
+
+const userInfoStore = userUserInfoStore();
+const menus = ref([]);
+const activeMenu = ref('');
+const defaultOpeneds = ref([]);
+
+const icons = {
+  UserFilled,
+  Grid,
+  Bell,
+  Setting,
+  Box,
+  Link,
+  CaretBottom,
+  CreditCard,
+  User,
+  Crop,
+  EditPen,
+  SwitchButton,
+  List,
+  ArrowRight
+};
+
+const getMenuData = async () => {
+  try {
+    const response = await getAllMenus();
+    console.log('API Response:', response); // 输出 API 返回的数据
+
+    // 确保数据结构正确
+    const { code, message, data } = response;
+    if (code !== 0) {
+      throw new Error(message || 'API请求失败');
+    }
+    if (!Array.isArray(data)) {
+      throw new Error('Invalid data structure');
+    }
+
+    // 过滤掉 undefined 的项
+    const validData = data.filter(menu => menu !== undefined);
+
+    // 对主菜单数据按id进行排序
+    const sortedData = validData.sort((a, b) => a.id - b.id);
+
+
+    menus.value = sortedData;
+
+    defaultOpeneds.value = sortedData
+
+        .filter(menu => menu.parentId === null)
+        .map(menu => menu.id.toString());
+
+
+  } catch (error) {
+    console.error('获取菜单失败:', error);
+  }
+};
+
+onMounted(() => {
+  getMenuData();
+});
+
+const handleOpen = (index) => {
+  activeMenu.value = index;
+};
+
+const handleClose = (index) => {
+  if (activeMenu.value === index) {
+    activeMenu.value = '';
+  }
+};
+
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const handleCommand = (command) => {
+  if (command === 'logout') {
+    alert('退出登录');
+  } else {
+    router.push('/user/' + command);
+  }
+};
+
+const outLogin = () => {
+  router.push('/adminLogin');
+};
+</script>
 
 <style lang="scss" scoped>
 .layout-container {
