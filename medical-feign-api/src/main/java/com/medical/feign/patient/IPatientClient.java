@@ -1,7 +1,6 @@
 package com.medical.feign.patient;
 
-import com.medical.model.patient.Patient;
-import com.medical.model.user.pojos.User;
+import com.medical.model.patient.pojos.Patient;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

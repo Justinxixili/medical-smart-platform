@@ -15,5 +15,6 @@ public class WebGatewayApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(WebGatewayApplication.class,args);
+        System.out.println("web网关启动成功");
     }
 }

@@ -17,6 +17,7 @@ public interface MedicineMapper {
 
     @Select("SELECT * FROM medicines")
     List<Medicine> findAll();
+
     @Select("SELECT * FROM medicines WHERE id=#{id}")
     Medicine getById(Integer id);
 }

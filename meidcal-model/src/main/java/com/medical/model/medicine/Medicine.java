@@ -8,6 +8,7 @@ package com.medical.model.medicine;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import com.medical.model.consultation.Consultation;
 import lombok.Data;
 import org.hibernate.validator.constraints.URL;
 
@@ -48,4 +49,8 @@ public class Medicine {
     @NotNull
     @Min(0)
     private Integer stock; // 库存信息
+
+    private String type;
+
+    private Consultation consultation; // 所属咨询信息
 }

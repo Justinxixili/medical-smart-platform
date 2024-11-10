@@ -6,8 +6,11 @@
         <!-- 左侧Logo和文字 -->
         <view class="logo">
           <img src="../assets/红十字.png" alt="CUHK Logo" />
-          <view class="hospital-name">智慧医院</view>
+          <view class="hospital-name">xixili医院</view>
+
+
         </view>
+
       </view>
 
       <view class="navbar-center">
@@ -89,7 +92,7 @@
           @select="handleSelect"
       >
         <el-sub-menu index="2">
-          <template #title>医院服务</template>
+          <template  #title>医院服务</template>
           <el-menu-item index="2-1">医院服务</el-menu-item>
         </el-sub-menu>
 
@@ -174,7 +177,23 @@
           <el-menu-item index="11-8">招标</el-menu-item>
           <el-menu-item index="11-9">联系我们</el-menu-item>
         </el-sub-menu>
+        <div class="mt-4">
+          <el-input
+              v-model="input3"
+              style="max-width: 340px; height: 40px ; "
+
+              placeholder="搜索医生，专科，或更多..."
+              class="input-with-select"
+          >
+            <template #append class="myicon">
+              <el-button class="my-button">
+                <img src="@/assets/serch.png" alt="search-icon" style="width: 20px" />
+              </el-button>
+            </template>
+          </el-input>
+        </div>
       </el-menu>
+
     </view>
 
   </view>
@@ -321,14 +340,12 @@ const copyPhoneNumber = () => {
 .logo {
   display: flex;
   align-items: center;
-  margin-right: 20px; /* 增加右方间距 */
-
   img {
     height: 80px;
   }
 
   .hospital-name {
-    margin-left: 10px;
+
     font-size: 60px;
     color: #660066;
     font-weight: bold;
@@ -439,11 +456,12 @@ const copyPhoneNumber = () => {
   background-color: #EEF2FE;
 }
 .mt-4 {
+
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 50px auto;
-  width: 80%; /* 根据需要调整宽度 */
+margin-left: 160px;
+  width: 20%; /* 根据需要调整宽度 */
 
 
 

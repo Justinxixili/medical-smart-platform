@@ -5,20 +5,59 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { allMedicineService } from "@/api/medicine.js"
 import avatar from "@/assets/default.png";
 import {allEmploymentService} from "@/api/employment.js";
+import zsjimage from '@/assets/medicalIcon/zsj.png';
+import jnimage from '@/assets/medicalIcon/jn.png';
+import kfyimage from '@/assets/medicalIcon/kfy.png';
+import pjimage from '@/assets/medicalIcon/pj.png';
+import qwjimage from '@/assets/medicalIcon/qwj.png';
+import rgimage from '@/assets/medicalIcon/rg.png';
+import zyimage from '@/assets/medicalIcon/zy.png';
+import klimage from '@/assets/medicalIcon/klj.png';
+import ECMOSimage from '@/assets/medicalIcon/ECMO.png';
+import sjimage from '@/assets/medicalIcon/sj.png';
+import allmedicineimage from '@/assets/medicalIcon/allmedicine.png';
 
-const allmedicines = ref([{
-  "id": 1,
-  "name": "阿司匹林",
-  "efficacy": "止痛",
-  "ingredients": "乙酰水杨酸",
-  "specifications": "500mg",
-  "price": 10.00,
-  "usage": "口服",
-  "productionDate": "2023-01-01",
-  "expirationDate": "2025-01-01",
-  "imageUrl": "http://example.com/aspirin.jpg",
-  "stock": 100
-}]);
+const categories = [
+  {name: '所有药品', image: allmedicineimage, type: 'all'},
+  {name: '注射剂', image: zsjimage, type: '1'},
+  {name: '片剂', image: pjimage, type: '2'},
+  {name: '胶囊', image: jnimage, type: '3'},
+  {name: '口服液', image: kfyimage, type:'4'},
+  {name: '颗粒剂', image: klimage, type: '5'},
+  {name: '软膏剂', image: rgimage, type: '6'},
+  {name: '栓剂', image: sjimage, type: '7'},
+  {name: '气雾剂', image: qwjimage, type: '8'},
+  {name: '中药', image: zyimage, type: '9'},
+  {name:'医疗器材', image: ECMOSimage, type: '10'}
+];
+
+const selectedCategory = ref(null);
+
+const selectCategory = (type) => {
+  if (type === 'all') {
+    // 显示全部药品
+    selectedCategory.value = allmedicines.value;
+  } else {
+    // 按类型筛选药品
+    selectedCategory.value = allmedicines.value.filter(medicine => medicine.type === type);
+  }
+};
+
+// 获取所有药品信息
+const allMedicineList = async () => {
+  const params = {
+    pageNum: pageNum.value,
+    pageSize: pageSize.value
+  };
+  try {
+    const result = await allMedicineService(params);
+    total.value = result.data.total;
+    allmedicines.value = result.data.items;
+  } catch (error) {
+    ElMessage.error('获取药品数据失败');
+  }
+}
+const allmedicines = ref([]);
 
 // 控制添加药品弹窗
 const dialogVisible = ref(false)
@@ -47,20 +86,6 @@ const pageNum = ref(1);
 const total = ref(0);
 const pageSize = ref(9);
 
-// 获取所有药品信息
-const allMedicineList = async () => {
-  const params = {
-    pageNum: pageNum.value,
-    pageSize: pageSize.value
-  };
-  try {
-    const result = await allMedicineService(params);
-    total.value = result.data.total;
-    allmedicines.value = result.data.items;
-  } catch (error) {
-    ElMessage.error('获取医生数据失败');
-  }
-};
 const onSizeChange = (size) => {
   pageSize.value = size;
   allMedicineList();
@@ -128,16 +153,25 @@ allMedicineList();
 </script>
 
 <template>
+
   <el-card class="page-container card-with-radius-shadow">
     <template #header>
       <div class="header">
-        <span>药品信息管理</span>
+        <h4>药品信息管理:</h4>
+        <div class="category-container">
+          <div class="category" v-for="category in categories" :key="category.name">
+            <div @click="selectCategory(category.type)" class="category-link">
+              <img :src="category.image" :alt="category.name"/>
+              <h3>{{ category.name }}</h3>
+            </div>
+          </div>
+        </div>
         <div class="extra">
           <el-button type="primary" @click="dialogVisible=true">添加药品</el-button>
         </div>
       </div>
     </template>
-    <el-table :data="allmedicines" style="width: 100%" class="table-with-radius-shadow">
+    <el-table :data="selectedCategory || allmedicines" style="width: 100%" class="table-with-radius-shadow">
       <el-table-column type="expand">
         <template #default="{ row }">
           <el-table :data="row.stockDetails" style="width: 100%">
@@ -161,17 +195,22 @@ allMedicineList();
           <el-image :src="row.imageUrl" style="width: 50px; height: 50px"></el-image>
         </template>
       </el-table-column>
-      <el-table-column label="库存" prop="stock"></el-table-column>
+      <el-table-column label="库存" prop="stock">
+        <template #default="{ row }">
+          <el-tag :type="row.stock > 10 ? 'success' : 'danger'">{{ row.stock }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" width="100">
         <template #default="{ row }">
-          <el-button :icon="Edit" circle plain type="primary" @click="dialogVisible=true"></el-button>
-          <el-button :icon="Delete" circle plain type="danger" @click="deleteMedicine(row)"></el-button>
+          <el-button icon="Edit" circle plain type="primary" @click="editMedicine(row)"></el-button>
+          <el-button icon="Delete" circle plain type="danger" @click="deleteMedicine(row)"></el-button>
         </template>
       </el-table-column>
       <template #empty>
         <el-empty description="没有数据"></el-empty>
       </template>
     </el-table>
+
     <el-pagination
         v-model:current-page="pageNum"
         v-model:page-size="pageSize"
@@ -241,5 +280,37 @@ allMedicineList();
 .table-with-radius-shadow {
   border-radius: var(--el-border-radius-base);
   box-shadow: var(--el-box-shadow-light);
+}
+.category-container {
+  display: flex;
+  flex-wrap: wrap;
+
+}
+
+.category {
+  margin: 20px;
+  text-align: center;
+}
+
+.category img {
+  width: 80px;
+  height: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  transition: transform 0.3s ease-in-out;
+}
+
+.category h3 {
+  font-size: 1.2em;
+  color: black;
+  margin-top: 10px;
+}
+
+.category-link {
+  text-decoration: none;
+}
+
+.category-link:hover h3 {
+  color: #555;
 }
 </style>

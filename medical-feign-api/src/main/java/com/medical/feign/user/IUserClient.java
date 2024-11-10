@@ -17,4 +17,14 @@ public interface IUserClient {
     @GetMapping("/user/client/username")
     User findUserByUsername( @RequestParam String username,
                              @RequestParam String identity);
+
+    @PostMapping("/user/client")
+    void createUser(@RequestBody User newUser);
+
+
+    @GetMapping("/user/client/role/check")
+    boolean hasRole(@RequestParam("id") Integer id, @RequestParam("role") String role);
+
+    @PostMapping("/user/client/role/add")
+    void addRoleToUser(@RequestParam("id") Integer id, @RequestParam("role") String role);
 }

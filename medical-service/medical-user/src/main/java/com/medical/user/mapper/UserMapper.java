@@ -19,12 +19,14 @@ public interface UserMapper{
      * 添加新用户
      * @param phone 用户手机号
      * @param password 加密后的密码
-     * @param role 用户角色
      * @param username 用户名
      * @param identity 用户身份
      */
-    @Insert("INSERT INTO user(phone, password, username, identity, create_time, update_time, role) VALUES(#{phone}, #{password}, #{username}, #{identity}, NOW(), NOW(), #{role})")
-    void add(String phone, String password, String role, String username, String identity);
+    @Insert("INSERT INTO user(phone, password, username, identity, create_time, update_time) VALUES(#{phone}, #{password}, #{username}, #{identity}, NOW(), NOW())")
+    void add(String phone, String password,  String username, String identity);
+
+    @Insert("INSERT INTO user(phone, password, username, identity, role, create_time, update_time) VALUES(#{phone}, #{password}, #{username}, #{identity},#{role}, NOW(), NOW())")
+    void createUser(String phone, String password, String username, String identity,String role);
 
     /**
      * 根据手机号查询用户
@@ -84,4 +86,12 @@ public interface UserMapper{
     @Select("SELECT * FROM user WHERE username = #{username} AND identity = #{identity}")
     User findByUsername(String username,String identity);
 
+
+
+    // 使用 @Select 注解查询用户是否具有指定角色
+    @Select("SELECT 1 FROM user WHERE id = #{id} AND role = #{role} LIMIT 1")
+    Integer countUserRole(@Param("id") Integer id, @Param("role") String role);
+
+    @Update("UPDATE user SET role = #{role} WHERE id = #{id}")
+    void updateUserRole(@Param("id") Integer id, @Param("role") String role);
 }

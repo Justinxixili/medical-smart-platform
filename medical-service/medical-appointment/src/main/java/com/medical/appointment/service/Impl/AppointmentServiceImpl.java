@@ -8,6 +8,7 @@ package com.medical.appointment.service.Impl;
 
 import com.medical.appointment.mapper.AppointmentMapper;
 import com.medical.appointment.service.AppointmentService;
+
 import com.medical.feign.department.IDepartmentClient;
 import com.medical.feign.doctor.IDoctorClient;
 import com.medical.feign.patient.IPatientClient;
@@ -16,7 +17,7 @@ import com.medical.model.appointment.Appointment;
 import com.medical.model.common.dtos.Result;
 import com.medical.model.department.Department;
 import com.medical.model.doctor.Doctor;
-import com.medical.model.patient.Patient;
+import com.medical.model.patient.pojos.Patient;
 import com.medical.model.user.pojos.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,13 +43,16 @@ public class AppointmentServiceImpl implements AppointmentService{
     private IDepartmentClient iDepartmentClient;
     @Autowired
     private IUserClient iUserClient;
+
+
     @Override
-    public Result createAppointment(Appointment appointment,Integer userId) {
+    public Result createAppointment(Appointment appointment, Integer userId) {
         // 获取当前时间
         appointment.setCreateTime(LocalDateTime.now());
         appointment.setUpdateTime(LocalDateTime.now());
-        Patient patientForUser=iPatientClient.findUserId(userId);
+
         // 获取当前用户的ID
+        Patient patientForUser = iPatientClient.findUserId(userId);
         appointment.setPatientId(patientForUser.getPatientId());
 
         // 验证患者是否存在
@@ -56,11 +60,13 @@ public class AppointmentServiceImpl implements AppointmentService{
         if (patient == null) {
             return Result.error("无效的患者ID");
         }
+
         // 验证科室是否存在
-      Department department = iDepartmentClient.findDepartmentById(appointment.getDepartmentId());
+        Department department = iDepartmentClient.findDepartmentById(appointment.getDepartmentId());
         if (department == null) {
             return Result.error("无效的科室ID");
         }
+
         // 设置其他相关信息
         appointment.setDepartmentName(department.getName());
         appointment.setCampus(department.getCampus());
@@ -68,8 +74,6 @@ public class AppointmentServiceImpl implements AppointmentService{
         String code = generateCode(LocalDateTime.now(), department.getId());
         appointment.setCode(code);
 
-
-        appointment.setAppointmentDate(appointment.getAppointmentDate());
         // 插入预约记录
         appointmentMapper.insert(appointment);
         return Result.success("预约创建成功");
@@ -188,4 +192,8 @@ public class AppointmentServiceImpl implements AppointmentService{
             return Result.success("没有找到此预约");
         }
     }
+
+
+
+
 }

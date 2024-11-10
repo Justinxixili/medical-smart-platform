@@ -9,12 +9,15 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="medical-appointment" />
+        <module name="medical-test" />
+        <module name="medical-consultation" />
         <module name="medical-utils" />
         <module name="medical-user" />
         <module name="medical-patient" />
         <module name="medical-medicine" />
         <module name="medical-uniapp-gateway" />
         <module name="meidcal-model" />
+        <module name="medical-notice" />
         <module name="medical-doctor" />
         <module name="medical-FileUpload" />
         <module name="medical-department" />
@@ -27,16 +30,20 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="medical-ExpertSystem" options="-parameters" />
       <module name="medical-FileUpload" options="-parameters" />
       <module name="medical-appointment" options="-parameters" />
       <module name="medical-common" options="-parameters" />
+      <module name="medical-consultation" options="-parameters" />
       <module name="medical-department" options="-parameters" />
       <module name="medical-doctor" options="-parameters" />
       <module name="medical-feign-api" options="-parameters" />
       <module name="medical-gateway" options="-parameters" />
       <module name="medical-medicine" options="-parameters" />
+      <module name="medical-notice" options="-parameters" />
       <module name="medical-patient" options="-parameters" />
       <module name="medical-service" options="-parameters" />
+      <module name="medical-test" options="-parameters" />
       <module name="medical-uniapp-gateway" options="-parameters" />
       <module name="medical-user" options="-parameters" />
       <module name="medical-utils" options="-parameters" />

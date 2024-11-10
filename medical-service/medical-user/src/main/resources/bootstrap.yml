@@ -1,5 +1,5 @@
 server:
-  port: 51602
+  port: 51611
 spring:
   application:
     name: medical-user

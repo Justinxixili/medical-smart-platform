@@ -2,7 +2,7 @@ package com.medical.patient.feign;
 
 import com.medical.feign.patient.IPatientClient;
 
-import com.medical.model.patient.Patient;
+import com.medical.model.patient.pojos.Patient;
 
 import com.medical.patient.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;

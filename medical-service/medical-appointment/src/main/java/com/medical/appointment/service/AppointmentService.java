@@ -23,4 +23,7 @@ public interface AppointmentService {
     Result getApUserId(Integer patientId);
 
     Result getAppointmentUsername(String username,String identity);
+
+
+
 }

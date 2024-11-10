@@ -97,16 +97,12 @@ const login = async () => {
     console.log("Decoded Token:", decodedToken)
 
     // 从解码的 token 中提取用户角色
-    const userRole = decodedToken.claims.role
-    console.log("User Role:", userRole)
 
     // 根据用户角色进行导航
-    if (userRole === 'admin') {
+
       ElMessage.success(result.msg ? result.msg : '登录成功')
-      router.push('/user/allUsers')
-    } else {
-      ElMessage.error('只允许管理员登录')
-    }
+      router.push('/user/date')
+
   } catch (error) {
     ElMessage.error('Token 解码失败: ' + error.message)
   }

@@ -15,6 +15,7 @@
         <module>medical-gateway</module>
         <module>medical-common</module>
         <module>medical-feign-api</module>
+        <module>medical-test</module>
     </modules>
 
 
@@ -87,24 +88,24 @@
         <dependencies>
             <!--内部依赖工程-->
             <dependency>
-                <artifactId>heima-leadnews-feign-api</artifactId>
-                <groupId>com.heima</groupId>
-                <version>${project.version}</version>
+                <artifactId>medical-feign-api</artifactId>
+                <groupId>com.medical.feign</groupId>
+                <version>1.0-SNAPSHOT</version>
             </dependency>
             <dependency>
-                <artifactId>heima-leadnews-common</artifactId>
-                <groupId>com.heima</groupId>
-                <version>${project.version}</version>
+                <artifactId>medical-common</artifactId>
+                <groupId>com.medical.common</groupId>
+                <version>1.0-SNAPSHOT</version>
             </dependency>
             <dependency>
-                <artifactId>heima-leadnews-model</artifactId>
-                <groupId>com.heima</groupId>
-                <version>${project.version}</version>
+                <artifactId>meidcal-model</artifactId>
+                <groupId>com.medical.model</groupId>
+                <version>1.0-SNAPSHOT</version>
             </dependency>
             <dependency>
-                <artifactId>heima-leadnews-utils</artifactId>
-                <groupId>com.heima</groupId>
-                <version>${project.version}</version>
+                <artifactId>medical-utils</artifactId>
+                <groupId>com.medical.utils</groupId>
+                <version>1.0-SNAPSHOT</version>
             </dependency>
             <!-- Spring boot 特殊处理包 -->
             <dependency>
@@ -286,11 +287,11 @@
                 <artifactId>kafka-clients</artifactId>
                 <version>${kafka.client.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-openapi3-javax-spring-boot-starter</artifactId>
-                <version>${knife4j.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>com.github.xiaoymin</groupId>-->
+<!--                <artifactId>knife4j-openapi3-javax-spring-boot-starter</artifactId>-->
+<!--                <version>${knife4j.version}</version>-->
+<!--            </dependency>-->
             <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger2</artifactId>

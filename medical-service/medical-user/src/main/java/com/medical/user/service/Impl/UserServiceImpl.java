@@ -68,14 +68,14 @@ public class UserServiceImpl  implements UserService {
         String password = registerRequest.getPassword();
         String identity = registerRequest.getIdentity();
         String username = registerRequest.getUsername();
-        String role = registerRequest.getRole();
+
         // 加密密码
         String md5String = Md5Util.getMD5String(password);
 
         User u = userMapper.findByPhone(phone);
         User i = userMapper.findByIdentity(identity);
         if (u == null && i == null) {
-            userMapper.add(phone, md5String, role, username, identity);
+            userMapper.add(phone, md5String, username, identity);
             return Result.success();
         } else {
             return Result.error("身份证或者手机号已被占用");
@@ -142,7 +142,6 @@ public class UserServiceImpl  implements UserService {
             HashMap<String, Object> claims = new HashMap<>();
             claims.put("id", u.getId());
             claims.put("phone", u.getPhone());
-            claims.put("role", u.getRole());
             String token = JwtUtil.genToken(claims);
             // 把token存储到Redis中
             ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
@@ -232,8 +231,7 @@ public class UserServiceImpl  implements UserService {
         user.setUsername(USER_NICK_NAME_PREFIX + RandomUtil.randomString(10));
         user.setPassword(RandomUtil.randomString(8));  // 设置随机密码
         user.setIdentity("defaultIdentity"); // 设置默认身份证号
-        user.setRole("define"); // 设置默认角色
-        userMapper.add(user.getPhone(), user.getPassword(), user.getUsername(), user.getIdentity(), user.getRole());
+        userMapper.add(user.getPhone(), user.getPassword(), user.getUsername(), user.getIdentity());
         return user;
     }
 
@@ -279,6 +277,44 @@ public class UserServiceImpl  implements UserService {
     @Override
     public User findByUsername(String username,String identity) {
         return userMapper.findByUsername(username,identity);
+    }
+
+    @Override
+    public void createUser(User newUser) {
+
+        String password= Md5Util.getMD5String("123456");
+       userMapper.createUser(newUser.getPhone(),password, newUser.getUsername(), newUser.getIdentity(), newUser.getRole());
+    }
+
+    // 检查用户是否具有指定角色
+    public boolean hasRole(Integer id, String role) {
+        // Null check for id and role
+        if (id == null || role == null || role.isEmpty()) {
+            return false; // Return false for invalid input
+        }
+
+        // Check if userMapper is null
+        if (userMapper == null) {
+            throw new IllegalStateException("userMapper is not initialized");
+        }
+
+        Integer count = userMapper.countUserRole(id, role);
+        return count != null && count > 0;
+    }
+
+    // 为用户添加角色
+    public void addRoleToUser(Integer id, String role) {
+        if (id == null || role == null || role.isEmpty()) {
+            throw new IllegalArgumentException("用户ID或角色不能为空");
+        }
+
+        if (!hasRole(id, role)) {
+            try {
+                userMapper.updateUserRole(id, role);  // 插入用户角色记录
+            } catch (Exception e) {
+                throw new RuntimeException("添加用户角色失败: " + e.getMessage(), e);
+            }
+        }
     }
 
     /**
