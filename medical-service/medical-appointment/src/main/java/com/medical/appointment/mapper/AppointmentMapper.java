@@ -7,6 +7,7 @@ package com.medical.appointment.mapper;
  */
 
 import com.medical.model.appointment.Appointment;
+import com.medical.model.common.dtos.Result;
 import org.apache.ibatis.annotations.*;
 
 import java.time.LocalDateTime;
@@ -36,4 +37,6 @@ public interface AppointmentMapper {
 
     @Select("SELECT * FROM appointment WHERE patient_id=#{patientId} AND status='已预约'")
     List<Appointment> findPatientStatus(Integer patientId);
+
+
 }

@@ -1,0 +1,19 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.medical.service</groupId>
+        <artifactId>medical-service</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <groupId>com.medical.expert</groupId>
+    <artifactId>medical-ExperSystem</artifactId>
+    <packaging>pom</packaging>
+    <name>project</name>
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+
+</project>

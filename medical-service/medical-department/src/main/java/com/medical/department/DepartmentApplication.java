@@ -18,5 +18,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 public class DepartmentApplication {
     public static void main(String[] args) {
         SpringApplication.run(DepartmentApplication.class, args);
+        System.out.println("部门服务启动成功");
     }
 }

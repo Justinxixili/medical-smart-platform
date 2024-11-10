@@ -90,7 +90,7 @@ public class UserController {
      * @return 当前用户的信息
      */
     @GetMapping("/userInfo")
-    public Result<User> userInfo(@RequestHeader("id") String userId, @RequestHeader("phone") String phone) {
+    public Result<User> userInfo(@RequestHeader("id") String id, @RequestHeader("phone") String phone) {
         return userService.findByPhone(phone);
     }
 

@@ -9,15 +9,20 @@
     <file url="file://$PROJECT_DIR$/medical-gateway/medical-web-gateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/medical-gateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/medical-gateway/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/medical-service/medical-ExpertSystem/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/medical-service/medical-ExpertSystem/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/medical-service/medical-FileUpload/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/medical-service/medical-appointment/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/medical-service/medical-consultation/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/medical-service/medical-department/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/medical-service/medical-doctor/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/medical-service/medical-medicine/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/medical-service/medical-notice/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/medical-service/medical-patient/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/medical-service/medical-user/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/medical-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/medical-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/medical-test/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/medical-utils/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/meidcal-model/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />

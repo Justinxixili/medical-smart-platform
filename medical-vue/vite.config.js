@@ -16,7 +16,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:52600', // 指向你的网关端口
+        target: 'http://localhost:52602', // 指向你的网关端口
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
       }

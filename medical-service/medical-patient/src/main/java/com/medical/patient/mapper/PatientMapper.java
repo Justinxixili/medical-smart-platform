@@ -2,7 +2,9 @@ package com.medical.patient.mapper;
 
 
 
-import com.medical.model.patient.Patient;
+import com.medical.model.common.dtos.Result;
+import com.medical.model.patient.patientDTO.patientCardDTO;
+import com.medical.model.patient.pojos.Patient;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -44,4 +46,13 @@ public interface PatientMapper {
     @Select("SELECT * FROM patient WHERE user_id=#{userId}")
     Patient findUserId(Integer userId);
 
+    @Insert("INSERT INTO patient(user_id, emergency_contact_name, emergency_contact_phone, emergency_contact_relationship,medical_card_number) " +
+            "VALUES(#{userId},#{emergencyContactName}, #{emergencyContactPhone}, #{emergencyContactRelationship},#{medicalCardNumber})")
+    void addPatientCard(Patient patient);
+
+    @Select("SELECT COUNT(1) FROM patient WHERE user_id = #{userId}")
+    boolean existsByUserId(@Param("userId") Integer userId);
+
+    @Select("SELECT * FROM patient WHERE user_id = #{userId}")
+    Patient getPatientCard(Integer userId);
 }

@@ -1,8 +1,6 @@
-package com.medical.model.patient;
+package com.medical.model.patient.pojos;
 
 import lombok.Data;
-
-import java.math.BigInteger;
 
 /**
  * @author 王祥俊
@@ -13,12 +11,12 @@ import java.math.BigInteger;
 public class Patient {
     private Integer patientId;
     private Integer userId;
+    private String medicalCardNumber;
     private Integer currentMedications;
     private String username;
     private String phone;
     private String medicalHistory;
     private String currentCondition;
-
     private String allergies;
     private String currentMedicationName;
     private String familyMedicalHistory;
@@ -26,4 +24,5 @@ public class Patient {
     private String emergencyContactName;
     private String emergencyContactPhone;
     private String emergencyContactRelationship;
+
 }

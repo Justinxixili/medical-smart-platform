@@ -44,4 +44,10 @@ public interface UserService  {
  User getById(Integer id);
 
     User findByUsername(String username,String identity);
+
+   void createUser(User newUser);
+
+    boolean hasRole(Integer id, String role);
+
+    void addRoleToUser(Integer id, String role);
 }

@@ -1,12 +1,17 @@
 package com.medical.utils.common;
 
 import org.junit.Test;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.HashMap;
 import java.util.Map;
+@SpringBootTest
+public class Mytest {
 
-public class JwtUtilTest {
 
+    //jwt测试
     @Test
     public void testTokenGenerationAndParsing() {
         Map<String, Object> claims = new HashMap<>();
@@ -20,4 +25,7 @@ public class JwtUtilTest {
         Map<String, Object> parsedClaims = JwtUtil.parseToken(token);
         System.out.println("Parsed Claims: " + parsedClaims);
     }
+
+
+
 }

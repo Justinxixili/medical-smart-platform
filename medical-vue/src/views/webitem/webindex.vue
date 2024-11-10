@@ -16,8 +16,8 @@ const handleSelect = (key: string, keyPath: string[]) => {
 
 // 轮播图数据
 const carouselItems = ref([
-  { src: new URL('@/assets/lunbo3.jpg', import.meta.url).href, alt: 'Slide 1' },
-  { src: new URL('@/assets/lunbo1.jpg', import.meta.url).href, alt: 'Slide 2' },
+  { src: new URL('@/assets/webindex/VCG211330595103.jpg', import.meta.url).href, alt: 'Slide 1' },
+
   { src: new URL('@/assets/lunbo2.jpg', import.meta.url).href, alt: 'Slide 3' },
   { src: new URL('@/assets/lunbo4.jpg', import.meta.url).href, alt: 'Slide 4' },
 ])
@@ -62,7 +62,7 @@ const items = [
 
 // 将数据分块
 const chunkedItems = ref([]);
-const chunkSize = 3; // 每行显示的卡片数
+const chunkSize = 2; // 每行显示的卡片数
 for (let i = 0; i < items.length; i += chunkSize) {
   chunkedItems.value.push(items.slice(i, i + chunkSize));
 }
@@ -72,75 +72,33 @@ for (let i = 0; i < items.length; i += chunkSize) {
 </script>
 
 <template>
-  <view>
+
   <!-- 轮播图 -->
   <view>
-    <el-carousel trigger="hover" height="700px" autoplay interval="5000">
+    <el-carousel trigger="hover" height="500px"  autoplay interval="5000">
       <el-carousel-item v-for="(item, index) in carouselItems" :key="index">
         <img :src="item.src" :alt="item.alt" style="width: 100%; height: 100%; object-fit: cover;">
       </el-carousel-item>
     </el-carousel>
   </view>
 
-
-  <div class="mt-4">
-    <el-input
-        v-model="input3"
-        style="max-width: 800px; height: 40px "
-
-        placeholder="搜索医生，专科，或更多..."
-        class="input-with-select"
-    >
-      <template #prepend>
-        <el-select v-model="select" placeholder="关键词"   size="large" style="width: 115px">
-          <el-option label="收费" value="1" />
-          <el-option label="计划" value="2" />
-          <el-option label="服务" value="3" />
-          <el-option label="文章" value="4" />
-        </el-select>
-      </template>
-      <template #append class="myicon">
-        <el-button :icon="Search" class="my-button"/>
-      </template>
-    </el-input>
-  </div>
-
+  <view class="carousel-container" >
+    <el-carousel :interval="5000" arrow="hover"  style="height: 100px" direction="vertical">
+      <el-carousel-item v-for="(chunk, index) in chunkedItems" :key="index">
+        <el-row :gutter="1">
+          <el-col :span="10" v-for="(item, index) in chunk" :key="index">
+            <el-button type="text" class="carousel-card">
+              <h2>{{ item.name }}</h2>
+              <img src="@/assets/webindex/webjiaintou.png" alt="search-icon" style="width: 20px; margin-left: 20px" />
+            </el-button>
+          </el-col>
+        </el-row>
+      </el-carousel-item>
+    </el-carousel>
   </view>
+
   <view class="offers-container">
-    <view class="latest-offers">
-      <h2>最新优惠</h2>
-      <p>理工大学医院提供多项健康检查及服务优惠</p>
-      <a href="#" class="learn-more">
-        立即了解更多 <el-icon><ArrowRight /></el-icon>
-      </a>
-      <img src="@/assets/logo123.jpg"  class="myimage"/>
-    </view>
-    <view class="medical-center">
-      <el-card class="medical-card" shadow="hover">
-        <view class="card-header">
-          体检服务中心 <el-icon><ArrowRight /></el-icon>
-        </view>
-        <view class="card-content">
-          <p>现在日期及时间</p>
-          <h3>{{ formattedDate }}</h3>
-          <el-divider />
-          <view class="service-info">
-            <p>现正服务以下登记时间的人士: 下午 9:26</p>
-            <p>候诊人数: &lt;2</p>
-          </view>
-        </view>
-        <el-divider />
-        <view class="card-footer">
-          <el-icon><InfoFilled /></el-icon> 注意
-          <ul>
-            <li>不适用于已预约的患者</li>
-            <li>资料每5分钟更新一次</li>
-            <li>急症医学中心 查询: 777777 7777</li>
-          </ul>
-        </view>
-      </el-card>
-    </view>
-    <view class="medical-center">
+
       <el-card class="medical-card" shadow="hover">
         <view class="card-header">
           急症医学中心 <el-icon><ArrowRight /></el-icon>
@@ -164,28 +122,8 @@ for (let i = 0; i < items.length; i += chunkSize) {
           </ul>
         </view>
       </el-card>
-    </view>
+  </view>
 
-  </view>
-  <view class="carousel-container">
-    <el-carousel :interval="5000" arrow="always" indicator-position="outside">
-      <el-carousel-item v-for="(chunk, index) in chunkedItems" :key="index">
-        <el-row :gutter="20">
-          <el-col :span="6" v-for="(item, index) in chunk" :key="index">
-            <el-card shadow="hover" class="carousel-card">
-              <view>{{ item.name }}</view>
-              <el-button type="text" class="view-details">
-                <el-icon><ArrowRight /></el-icon>
-              </el-button>
-            </el-card>
-          </el-col>
-        </el-row>
-      </el-carousel-item>
-    </el-carousel>
-    <view class="view-all">
-      <a href="#">查看全部</a>
-    </view>
-  </view>
 </template>
 
 
@@ -223,25 +161,22 @@ for (let i = 0; i < items.length; i += chunkSize) {
 
 .input-with-select .el-button {
   font-size: 18px; /* 增大按钮字体大小 */
-}
-.my-button{
-  width: 100px;
-  background-color: #220D50;
 
 }
+
 
 
 .offers-container {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 20px;
   padding: 20px;
+  margin: 20px auto;
+  width: 80%; /* 根据需要调整宽度 */
+
 }
 
-.latest-offers {
-  width: 50%;
-}
+
 
 .latest-offers h2 {
   color: #2E3A59;
@@ -252,29 +187,7 @@ for (let i = 0; i < items.length; i += chunkSize) {
   margin: 10px 0;
 }
 
-.learn-more {
-  color: green;
-  text-decoration: none;
-  font-size: 24px;
-}
 
-.learn-more:hover {
-  text-decoration: underline;
-}
-
-.offer-image {
-  margin-top: 20px;
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-}
-
-.medical-center {
-  margin-top: 80px;
-  width: 45%;
-
-
-}
 
 .medical-card {
   background-color: #006C72;
@@ -286,9 +199,7 @@ for (let i = 0; i < items.length; i += chunkSize) {
 
 
 }
-.myimage{
-  height: 400px;
-}
+
 .card-header {
   display: flex;
   justify-content: space-between;
@@ -322,48 +233,27 @@ for (let i = 0; i < items.length; i += chunkSize) {
 }
 .carousel-container {
   position: relative;
-  background-color: #F9F9F9; /* 与背景颜色匹配 */
-  padding: 50px 0;
   justify-content: center;
+
+  margin: 0;
+
 
 }
 
 
 
 .carousel-card {
-  margin-top: 100px;
-  width: 100%;
-  height: 100px;
+  margin-top: 20px;
+  width: 80%;
+  height: 70px;
   display: flex;
-  align-items: center;
   padding: 1px;
-  background-color: #F9F9F9;
-  border-radius: 100px;
+  background-color: #D5D2CD;
+  border-radius: 20px;
   justify-content: center;
-  margin-left: 270px;
-}
-.carousel-card:hover{
-  margin-top: 100px;
-  width: 100%;
-  height: 100px;
-  display: flex;
-  align-items: center;
-  padding: 1px;
-  background-color: #EEF2FE;
-  border-radius: 100px;
-  justify-content: center;
-  margin-left: 530px;
-}
-.view-details {
-  color: #409EFF;
+  margin-left: 250px;
 }
 
-.view-all {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  color: #00c3ff;
-}
 
 .view-all a {
   text-decoration: none;
@@ -372,10 +262,6 @@ for (let i = 0; i < items.length; i += chunkSize) {
 
 .view-all a:hover {
   text-decoration: underline;
-}
-.footer {
-  background-color: #fff;
-  padding: 20px 0;
 }
 
 

@@ -15,6 +15,7 @@
         <module>medical-gateway</module>
         <module>medical-common</module>
         <module>medical-feign-api</module>
+        <module>medical-test</module>
     </modules>
 
 

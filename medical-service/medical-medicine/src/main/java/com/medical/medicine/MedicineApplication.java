@@ -19,6 +19,7 @@ public class MedicineApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(MedicineApplication.class, args);
+        System.out.println("药品服务启动成功");
     }
 
 }

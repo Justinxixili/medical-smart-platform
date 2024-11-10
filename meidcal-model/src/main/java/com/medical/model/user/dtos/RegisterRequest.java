@@ -12,7 +12,6 @@ import  javax.validation.constraints.Pattern;
  */
 @Data
 public class RegisterRequest {
-    private  String token;
     @Pattern(regexp = "^\\S{5,16}$")
     private String phone;
     private String username;
@@ -20,7 +19,5 @@ public class RegisterRequest {
     private String identity;
     @Pattern(regexp = "^\\S{5,16}$")
     private String password;
-    @Pattern(regexp = "^(doctor|patient|admin)$")
-    private String role;
 
 }

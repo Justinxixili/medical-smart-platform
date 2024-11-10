@@ -1,5 +1,5 @@
 server:
-  port: 51806
+  port: 51816
 spring:
   application:
     name: medical-appointment

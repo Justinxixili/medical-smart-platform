@@ -7,12 +7,18 @@ package com.medical.appointment.controller;
  */
 
 
+import cn.hutool.jwt.Claims;
 import com.medical.appointment.service.AppointmentService;
 import com.medical.model.appointment.Appointment;
 import com.medical.model.common.dtos.Result;
+import com.medical.utils.common.JwtUtil;
+import org.junit.Test;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RefreshScope
 @RestController
@@ -21,13 +27,19 @@ public class AppointmentController {
 
     @Autowired
     private AppointmentService appointmentService;
-
     @PostMapping
-    public Result createAppointment(@RequestBody Appointment appointment,@RequestHeader("id") Integer userId) {
+    public Result createAppointment(@RequestBody Appointment appointment, @RequestHeader("Authorization") String token) {
+        // 去掉 'Bearer ' 前缀
+        String jwtToken = token.replace("Bearer ", "");
 
-        return appointmentService.createAppointment(appointment,userId);
+        // 解析 JWT，获取 claims
+        Map<String, Object> claims = JwtUtil.parseToken(jwtToken);
+
+        // 获取 userId（假设 userId 在 claims 中存储为 "userId"）
+        Integer userId = (Integer) claims.get("id");
+
+        return appointmentService.createAppointment(appointment, userId);
     }
-
 
     @GetMapping("/detail")
     public Result getAppointmentsByUserId(@RequestParam Integer userId) {
@@ -50,5 +62,7 @@ public class AppointmentController {
 
         return appointmentService.deleteAppointment(id);
     }
+
+
 
 }

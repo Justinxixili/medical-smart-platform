@@ -14,5 +14,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 public class UniappGatewayApplication {
     public static void main(String[] args) {
         SpringApplication.run(UniappGatewayApplication.class,args);
+        System.out.println("uniapp网关服务启动成功");
     }
 }

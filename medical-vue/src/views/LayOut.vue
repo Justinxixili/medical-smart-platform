@@ -188,7 +188,7 @@ const outLogin = () => {
     .el-aside__logo {
       width: 100px;
       height: 100px;
-      background: url('../assets/红十字.png') no-repeat center / contain;
+      background: url('../assets/去挂号.png') no-repeat center / contain;
       margin-bottom: 20px;
       padding-left: 60px;
     }

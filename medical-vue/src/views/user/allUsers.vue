@@ -1,11 +1,101 @@
 <template>
+  <div>
+  <el-form ref="queryForm" size="small" :inline="true">
+    <el-form-item label="姓名:" prop="inspectUserName">
+      <el-input
+
+          placeholder="请输入姓名"
+          clearable
+
+      />
+    </el-form-item>
+    <el-form-item label="电话号码:" prop="inspectDeptName">
+      <el-input
+
+          placeholder="请输入电话号码"
+          clearable
+
+      />
+    </el-form-item>
+    <el-form-item label="身份证:" prop="inspectCount">
+      <el-input
+
+          placeholder="请输入身份证件"
+          clearable
+
+      />
+    </el-form-item>
+    <el-form-item>
+      <el-button type="primary" icon="el-icon-search" size="mini" >搜索</el-button>
+      <el-button icon="el-icon-refresh" size="mini" >重置</el-button>
+    </el-form-item>
+  </el-form>
+</div>
+
   <el-card class="page-container">
     <template #header>
       <div class="header">
-        <span>用户账户管理</span>
+        <span>用户账户管理:</span>
+          <div  v-for="category in categories" :key="category.name" style="margin-left: 30px">
+            <el-button @click="selectCategory(category.role)" class="category-link" type="primary" plain>
+              <h3>{{ category.name }} ({{ getCategoryUserCount(category.role) }} 人)</h3>
+            </el-button>
+          </div>
+
       </div>
+
     </template>
-    <el-table :data="allUsers" style="width: 100%">
+    <el-row :gutter="10" class="mb8">
+      <el-col :span="1.5">
+        <el-button
+            type="primary"
+            plain
+            icon="el-icon-plus"
+            size="mini"
+            :disabled="single"
+            @click="handleAdd"
+        >新增
+        </el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button
+            type="success"
+            plain
+            icon="el-icon-edit"
+            size="mini"
+            :disabled="single"
+            @click="handleUpdate"
+
+        >修改
+        </el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button
+            type="danger"
+            plain
+            icon="el-icon-delete"
+            size="mini"
+            :disabled="multiple"
+            @click="handleDelete"
+
+        >删除
+        </el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button
+            type="warning"
+            plain
+            icon="el-icon-download"
+            size="mini"
+            @click="handleExport"
+
+        >导出
+        </el-button>
+      </el-col>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+    </el-row>
+    <el-table :data="selectedCategory || allUsers" style="width: 100%" @selection-change="handleSelectionChange">
+      <el-table-column type="selection" width="55" align="center"/>
       <el-table-column label="序号" width="100" type="index"></el-table-column>
       <el-table-column label="姓名" prop="username" width="160">
         <template #default="{ row }">
@@ -99,19 +189,27 @@
 
 <script setup>
 import { Edit, Delete } from '@element-plus/icons-vue'
-import { ref } from 'vue'
+import {onMounted, ref} from 'vue'
 import { ElMessage, ElMessageBox } from "element-plus"
 import { AllUsersServer, UserDeleteServer, UserUpdateServer } from "@/api/user.js"
 import avatar from "@/assets/default.png"
 import userUserInfoStore from '@/stores/userInfo.js'
+import patientimage from '@/assets/medicalIcon/patient.png';
+import doctormage from '@/assets/medicalIcon/doctor.png';
+import adminimage from '@/assets/medicalIcon/admin.png';
+import alluserimage from '@/assets/medicalIcon/alluser.png';
+const categories = [
+  {name: '所有用户', image: alluserimage, role: 'all'},
+  {name: '医生', image: patientimage, role: 'doctor'},
+  {name: '患者', image: doctormage, role: 'patient'},
+  {name: '管理员', image: adminimage, role: 'admin'},
+
+
+];
 
 const userIfoStore = userUserInfoStore();
 
-const allUsers = ref([
-  { id: 1, username: "w", gender: null, birth: null, phone: null, address: null, identity: "", nickname: "", email: "", userPic: "", updateTime: "2024-07-03 22:59:39", role: "doctor" },
-  { id: 2, username: "x", gender: null, birth: null, phone: null, address: null, identity: "", nickname: "", email: "", userPic: "", updateTime: "2024-07-03 22:59:39", role: "patient" },
-  { id: 3, username: "y", gender: null, birth: null, phone: null, address: null, identity: "", nickname: "", email: "", userPic: "", updateTime: "2024-07-03 22:59:39", role: "admin" },
-])
+const allUsers = ref([])
 
 const dialogVisible = ref(false)
 const AllUserModel = ref({ username: '', email: '', userPic: '', identity: '', updateTime: '', role: '', phone: '', gender: '', birth: '', address: '' })
@@ -176,8 +274,31 @@ const allUsersServer = async () => {
 }
 
 allUsersServer()
+const selectedCategory = ref(null);
 
+// 计算每个分类下的用户数量
+const getCategoryUserCount = (role) => {
+  if (allUsers.value.length === 0) {
+    return 0; // 确保有用户数据
+  }
 
+  if (role === 'all') {
+    // 返回所有用户的总人数
+    return allUsers.value.length;
+  }
+
+  // 返回特定 role 的用户人数
+  return allUsers.value.filter(user => user.role === role).length;
+};
+
+// 选择某个分类时过滤用户
+const selectCategory = (role) => {
+  if (role === 'all') {
+    selectedCategory.value = allUsers.value; // 选择全部时显示所有用户
+  } else {
+    selectedCategory.value = allUsers.value.filter(user => user.role === role);
+  }
+};
 // 删除用户
 const deleteUser = (row) => {
   ElMessageBox.confirm(
@@ -227,7 +348,7 @@ const getRoleTagType = (role) => {
   .header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: start;
   }
 
   .el-card {
@@ -267,5 +388,36 @@ const getRoleTagType = (role) => {
   .el-input {
     border-radius: 10px;
   }
+  .mb8 {
+    margin-bottom: 8px;
+  }
+
+}
+.category-container {
+  display: flex;
+  flex-wrap: wrap;
+
+}
+
+.category img {
+  width: 150px;
+  height: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 20%;
+  transition: transform 0.3s ease-in-out;
+}
+
+.category h3 {
+  font-size: 1.2em;
+  color: black;
+  margin-top: 10px;
+}
+
+.category-link {
+  text-decoration: none;
+}
+
+.category-link:hover h3 {
+  color: #555;
 }
 </style>

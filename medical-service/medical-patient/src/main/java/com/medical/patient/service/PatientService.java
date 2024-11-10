@@ -2,9 +2,9 @@ package com.medical.patient.service;
 
 
 
-import com.medical.model.common.dtos.PageBean;
 import com.medical.model.common.dtos.Result;
-import com.medical.model.patient.Patient;
+import com.medical.model.patient.patientDTO.patientCardDTO;
+import com.medical.model.patient.pojos.Patient;
 
 /**
  * @author 王祥俊
@@ -25,4 +25,8 @@ public interface PatientService  {
     Patient getById(Integer patientId);
 
     Patient findUserId(Integer userId);
+
+    Result<String> addPatientCard(patientCardDTO patientCardDTO);
+
+    Result<patientCardDTO> getPatientCard(Integer userId);
 }
